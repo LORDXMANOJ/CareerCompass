@@ -1,8 +1,6 @@
 import { redirect } from "next/navigation";
-
 import { createClient } from "@/lib/supabase/server";
-import { InfoIcon } from "lucide-react";
-import { FetchDataSteps } from "@/components/tutorial/fetch-data-steps";
+import { InfoIcon, ShieldCheck } from "lucide-react";
 import { Suspense } from "react";
 
 async function UserDetails() {
@@ -18,25 +16,20 @@ async function UserDetails() {
 
 export default function ProtectedPage() {
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
+    <div className="flex-1 w-full flex flex-col gap-8">
       <div className="w-full">
-        <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center">
-          <InfoIcon size="16" strokeWidth={2} />
-          This is a protected page that you can only see as an authenticated
-          user
+        <div className="bg-purple-950/40 border border-purple-500/20 text-purple-200 text-sm p-4 rounded-xl flex gap-3 items-center backdrop-blur-md">
+          <ShieldCheck size="20" className="text-purple-400 shrink-0" />
+          <span>Protected Area: Authenticated Session Active</span>
         </div>
       </div>
-      <div className="flex flex-col gap-2 items-start">
-        <h2 className="font-bold text-2xl mb-4">Your user details</h2>
-        <pre className="text-xs font-mono p-3 rounded border max-h-32 overflow-auto">
-          <Suspense>
+      <div className="flex flex-col gap-3 items-start bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
+        <h2 className="font-bold text-xl text-white">Your Authentication Session Claims</h2>
+        <pre className="text-xs font-mono p-4 rounded-xl bg-slate-950 border border-slate-800 text-purple-300 w-full overflow-auto max-h-64">
+          <Suspense fallback={<span className="text-slate-500">Loading claims...</span>}>
             <UserDetails />
           </Suspense>
         </pre>
-      </div>
-      <div>
-        <h2 className="font-bold text-2xl mb-4">Next steps</h2>
-        <FetchDataSteps />
       </div>
     </div>
   );
