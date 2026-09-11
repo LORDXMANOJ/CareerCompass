@@ -15,6 +15,8 @@ import {
   DailyPracticePlan,
   DailyHistoryItem,
   DailyBudgetBreakdown,
+  AdaptivePracticeProfile,
+  PracticeFeedback,
 } from "@/types/problems";
 import {
   getLocalDateString,
@@ -22,6 +24,8 @@ import {
   buildSevenDayHistory,
   computeDailyPracticeBudget,
 } from "@/lib/daily-practice-intelligence";
+import { computeAdaptivePracticeProfile } from "@/lib/problem-intelligence";
+import { PROBLEMS_CATALOG } from "@/constants/problems-catalog";
 
 const STORAGE_KEY_PREFIX = "cc_problem_attempts";
 const DAILY_PLAN_KEY_PREFIX = "cc_daily_practice_plan";
@@ -34,6 +38,8 @@ interface UseProblemTrackerResult {
   solvedIds: string[];
   /** Log a new problem attempt */
   logAttempt: (attempt: UserProblemAttempt, onboardingState?: OnboardingState) => void;
+  /** Submit structured practice feedback */
+  processFeedback: (feedback: PracticeFeedback, onboardingState?: OnboardingState) => void;
   /** Check if a specific problem has been solved */
   isAlreadySolved: (problemId: string) => boolean;
   /** Check if a specific problem has any attempt logged */
@@ -56,6 +62,8 @@ interface UseProblemTrackerResult {
   getBudget: (onboardingState: OnboardingState) => DailyBudgetBreakdown;
   /** Refresh or initialize today's plan with onboarding state */
   syncDailyPlan: (onboardingState: OnboardingState) => DailyPracticePlan;
+  /** Adaptive profile derived from authentic attempts */
+  adaptiveProfile: AdaptivePracticeProfile;
 }
 
 function getStorageKey(userId: string): string {
@@ -291,6 +299,29 @@ export function useProblemTracker(userId: string): UseProblemTrackerResult {
     return buildSevenDayHistory(storedHistory, dailyPlan, attempts);
   }, [storedHistory, dailyPlan, attempts]);
 
+  const processFeedback = useCallback(
+    (feedback: PracticeFeedback, onboardingState?: OnboardingState) => {
+      const attempt: UserProblemAttempt = {
+        id: `att_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        problemId: feedback.problemId,
+        status: feedback.status,
+        confidence: feedback.confidence,
+        difficultyFeedback: feedback.difficultyFeedback,
+        perceivedDifficulty: feedback.difficultyFeedback,
+        primaryFriction: feedback.primaryFriction,
+        timeSpentMinutes: feedback.timeSpentMinutes || 0,
+        notes: feedback.notes || "",
+        createdAt: new Date().toISOString(),
+      };
+      logAttempt(attempt, onboardingState);
+    },
+    [logAttempt]
+  );
+
+  const adaptiveProfile = useMemo(() => {
+    return computeAdaptivePracticeProfile(attempts, PROBLEMS_CATALOG);
+  }, [attempts]);
+
   const clearHistory = useCallback(() => {
     setAttempts([]);
     setDailyPlan(null);
@@ -307,6 +338,7 @@ export function useProblemTracker(userId: string): UseProblemTrackerResult {
       attempts,
       solvedIds,
       logAttempt,
+      processFeedback,
       isAlreadySolved,
       hasAttempt,
       getLatestAttempt,
@@ -318,11 +350,13 @@ export function useProblemTracker(userId: string): UseProblemTrackerResult {
       sevenDayHistory,
       getBudget,
       syncDailyPlan,
+      adaptiveProfile,
     }),
     [
       attempts,
       solvedIds,
       logAttempt,
+      processFeedback,
       isAlreadySolved,
       hasAttempt,
       getLatestAttempt,
@@ -334,6 +368,7 @@ export function useProblemTracker(userId: string): UseProblemTrackerResult {
       sevenDayHistory,
       getBudget,
       syncDailyPlan,
+      adaptiveProfile,
     ]
   );
 }

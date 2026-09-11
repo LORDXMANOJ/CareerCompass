@@ -34,6 +34,7 @@ export type ProblemTopic =
   | "Trie"
   | "Union Find"
   | "Intervals"
+  | "Prefix Sum"
   | "Matrix"
   | "Implementation"
   | "Constructive"
@@ -43,9 +44,9 @@ export type ProblemTopic =
 export interface CodingProblem {
   /** Internal stable identifier */
   id: string;
-  /** Platform that hosts this problem */
+  /** Platform identifier */
   provider: ProblemProvider;
-  /** Provider-specific problem identifier (e.g. "1" for LeetCode #1, "1800A") */
+  /** External problem ID (e.g. "1" for LeetCode #1, "1A" for Codeforces) */
   externalId: string;
   /** Problem title */
   title: string;
@@ -102,6 +103,8 @@ export type FrictionType =
 
 /** A single logged problem attempt by the user */
 export interface UserProblemAttempt {
+  /** Optional attempt log ID */
+  id?: string;
   /** Internal problem ID (matches CodingProblem.id) */
   problemId: string;
   /** What happened */
@@ -110,6 +113,8 @@ export interface UserProblemAttempt {
   confidence: ConfidenceLevel;
   /** How hard the user felt it was */
   difficultyFeedback: PerceivedDifficulty;
+  /** Alias for difficultyFeedback */
+  perceivedDifficulty?: PerceivedDifficulty;
   /** Where the user got stuck */
   primaryFriction: FrictionType;
   /** Optional free-text notes */
@@ -143,6 +148,14 @@ export interface ProblemRecommendation {
   addressesGap?: string;
   /** Which target company frequently asks this */
   relevantCompany?: string;
+  /** Category mix classification for diversity */
+  category?: RecommendationCategory;
+  /** Direct connection to Roadmap Phase */
+  roadmapPhaseConnection?: string;
+  /** Alias for roadmapPhaseConnection */
+  roadmapConnection?: string;
+  /** Associated roadmap phase number (1-4) */
+  roadmapPhase?: number;
 }
 
 /** Coverage stats for a single DSA topic */
@@ -244,6 +257,80 @@ export interface DailyPracticeScore {
   summaryLabel: string; // e.g. "Optimal", "Progressing", "No score yet"
 }
 
+// ---------------------------------------------------------------------------
+// Phase 9 — Adaptive Mastery & Performance Types
+// ---------------------------------------------------------------------------
+
+/** Topic-level competence assessment based on authentic practice evidence */
+export type TopicMasteryState = "Unknown" | "Weak" | "Developing" | "Competent" | "Strong";
+
+/** Recommendation mix category for practice diversity */
+export type RecommendationCategory =
+  | "foundation"
+  | "targeted_weakness"
+  | "role_company"
+  | "stretch"
+  | "review";
+
+/** Detailed performance metrics for a specific DSA topic */
+export interface TopicPerformance {
+  topic: ProblemTopic;
+  totalCatalogProblems: number;
+  attemptsCount: number;
+  solvedCount: number;
+  solveRate: number; // 0.0 to 1.0
+  averageConfidence: number; // 1.0 to 5.0
+  masteryState: TopicMasteryState;
+  primaryFriction: FrictionType | null;
+  difficultyBreakdown: {
+    easySolved: number;
+    mediumSolved: number;
+    hardSolved: number;
+  };
+  lastPracticedDate: string | null;
+  needsReinforcement: boolean;
+}
+
+/** Performance metrics for a difficulty tier */
+export interface DifficultyPerformance {
+  difficulty: ProblemDifficulty;
+  attemptedCount: number;
+  solvedCount: number;
+  solveRate: number;
+  averageConfidence: number;
+  primaryFriction: FrictionType | null;
+}
+
+/** Post-problem user feedback bundle */
+export interface PracticeFeedback {
+  problemId: string;
+  status: AttemptStatus;
+  confidence: ConfidenceLevel;
+  difficultyFeedback: PerceivedDifficulty;
+  primaryFriction: FrictionType;
+  notes?: string;
+  timeSpentMinutes?: number;
+}
+
+/** Comprehensive adaptive profile synthesizing user's practice telemetry */
+export interface AdaptivePracticeProfile {
+  overallConfidence: number; // 1.0 to 5.0
+  overallSolveRate: number; // 0.0 to 1.0
+  topicPerformances: Record<string, TopicPerformance>;
+  difficultyPerformances: Record<ProblemDifficulty, DifficultyPerformance>;
+  weakTopics: ProblemTopic[];
+  developingTopics: ProblemTopic[];
+  strongTopics: ProblemTopic[];
+  recentFrictionPoints: FrictionType[];
+  currentStreak: number;
+  recommendedFocusTopic: ProblemTopic;
+  recommendedDifficulty: ProblemDifficulty;
+  adaptiveReasoning: string;
+}
+
+/** Alias for backward compatibility */
+export type PracticeAttempt = UserProblemAttempt;
+
 /** A single student's daily practice plan entity */
 export interface DailyPracticePlan {
   userId: string;
@@ -256,12 +343,19 @@ export interface DailyPracticePlan {
   completedCount: number;
   solvedCount: number;
   attemptedCount: number;
+  remainingCount?: number;
   dailyScore: number | null;
   completionRate: number;
   averageConfidence: number;
   averageDifficulty: number;
   primaryFriction: FrictionType | null;
   status: DailyPracticeStatus;
+  /** Current priority focus topic for today */
+  focusTopic?: ProblemTopic;
+  /** Primary next recommended problem */
+  nextRecommendedProblem?: CodingProblem;
+  /** Concise explainable reason for next problem */
+  nextProblemReason?: string;
   /** List of problem IDs recommended for today */
   problemIds: string[];
   createdAt: string;
@@ -280,5 +374,9 @@ export interface DailyHistoryItem {
   easySolved: number;
   mediumSolved: number;
   hardSolved: number;
+  strongestTopic?: string;
+  weakestTopic?: string;
+  averageConfidence?: number;
 }
+
 

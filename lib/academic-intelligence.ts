@@ -26,10 +26,10 @@ const GRAD_MONTH = 5; // June (0-based month)
 export function computeAcademicMetrics(education: EducationDetails): AcademicMetrics {
   const now = new Date();
   const fallbackGrad = now.getFullYear() + 3;
-  const parsed = parseInt(education.graduationYear, 10);
-  const graduationYear =
-    Number.isFinite(parsed) && parsed >= now.getFullYear() ? parsed : fallbackGrad;
+  const parsed = parseInt(education?.graduationYear || "", 10);
+  const graduationYear = Number.isFinite(parsed) && parsed >= 2000 ? parsed : fallbackGrad;
 
+  const isGraduated = graduationYear < now.getFullYear() || (graduationYear === now.getFullYear() && now.getMonth() >= GRAD_MONTH);
   const startYear = graduationYear - 4; // 8-semester B.E./B.Tech program
   const month = now.getMonth();
   const year = now.getFullYear();
@@ -37,15 +37,15 @@ export function computeAcademicMetrics(education: EducationDetails): AcademicMet
   const academicStart = secondHalf ? year : year - 1;
   const semOffset = secondHalf ? 1 : 2;
 
-  const rawSemester = (academicStart - startYear) * 2 + semOffset;
+  const rawSemester = isGraduated ? 8 : (academicStart - startYear) * 2 + semOffset;
   const currentSemester = Math.min(8, Math.max(1, rawSemester));
   const totalSemesters = 8;
-  const semestersRemaining = Math.max(0, totalSemesters - currentSemester);
+  const semestersRemaining = isGraduated ? 0 : Math.max(0, totalSemesters - currentSemester);
 
   const gradDate = new Date(graduationYear, GRAD_MONTH, 1, 12, 0, 0);
   const diffMs = gradDate.getTime() - now.getTime();
-  const daysRemaining = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
-  const monthsRemaining = Math.max(0, Math.round(daysRemaining / 30.4));
+  const daysRemaining = isGraduated ? 0 : Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+  const monthsRemaining = isGraduated ? 0 : Math.max(0, Math.round(daysRemaining / 30.4));
 
   return {
     graduationYear,
