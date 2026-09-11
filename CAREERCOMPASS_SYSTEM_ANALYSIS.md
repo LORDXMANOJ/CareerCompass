@@ -29,6 +29,7 @@ CareerCompass is evolving from a career dashboard into a **Personal Career Opera
 | **Phase 6** | Interactive Career Roadmap | Completed | `roadmap-page-view.tsx`, `roadmap-intelligence.ts`, sequenced milestones |
 | **Phase 7** | Skills Intelligence Workspace | Completed | `skills-page-view.tsx`, `skills-intelligence.ts`, micro-verification questions |
 | **Phase 8** | Coding Problem Lab & Normalization | Completed | `problems-page-view.tsx`, 125 curated problems, solve logger, attempt history |
+| **Phase 9** | Adaptive Coding Intelligence & Daily Practice Engine | Completed | `daily-practice-intelligence.ts`, `problem-intelligence.ts`, Topic Gap Engine, V2 recommendation scoring, 20 deterministic tests |
 | **Upgrade** | Persistent Website-Wide Companion | Completed | `persistent-companion.tsx`, route-aware coaching, 6 personas |
 | **Upgrade** | Adaptive Daily Practice Engine | Completed | `daily-practice-intelligence.ts`, semester baselines, deterministic scoring |
 | **Bug Fix** | Maximum Update Depth Render Loop | Resolved | State decoupled with refs, reference identity equality, zero ESLint/TS errors |
@@ -163,15 +164,15 @@ To ensure quality across future commits and pull requests, `.github/workflows/ci
 
 ---
 
-## 9. Next Roadmap Horizons (Phases 9–18)
+## 9. Next Roadmap Horizons (Phases 10–18)
 
-1. **Phase 9: Post-Problem Feedback & Adaptive Recommendations** — Use friction telemetry and confidence scores to adjust future recommendations automatically.
-2. **Phase 10: Global Notification Center** — Persistent multi-category in-app notification center (Career, Skills, Problems, Companies).
-3. **Phase 11: Contextual Industry News** — Filtered industry news and engineering blogs matched to dream role and target companies.
-4. **Phase 12: Alternative Career Discovery** — Framer Motion swipeable cards presenting adjacent roles based on existing skills.
-5. **Phase 13: Resume Intelligence** — Grounded resume generation from verified skills and project evidence.
-6. **Phase 14: Industry & Interview Preparation** — Targeted preparation guides for specific company tiers and technical interview formats.
-7. **Phase 15: Mock Assessment System** — Full multi-category mock assessments generating diagnostic reports.
-8. **Phase 16: External Telemetry Sync** — GitHub REST API and Codeforces public API integration.
-9. **Phase 17: Multi-Companion Deepening** — Expanding voice dialogues, ambient reactions, and distinct coaching engines.
-10. **Phase 18: Unified Career Operating Loop** — Continuous end-to-end recalibration loop from student goal to career offer.
+- **COMPLETED**: Phases 1–9 (Foundation, Auth, Career Intelligence, Dashboard, Command Center, Roadmap, Skills, Problem Lab, Adaptive Practice Engine)
+- **NEXT — Phase 10: Global Notification Center** — Persistent multi-category in-app notification center (Career, Skills, Problems, Companies).
+- **Phase 11: Contextual Industry News** — Filtered industry news and engineering blogs matched to dream role and target companies.
+- **Phase 12: Alternative Career Discovery** — Framer Motion swipeable cards presenting adjacent roles based on existing skills.
+- **Phase 13: Resume Intelligence** — Grounded resume generation from verified skills and project evidence.
+- **Phase 14: Industry & Interview Preparation** — Targeted preparation guides for specific company tiers and technical interview formats.
+- **Phase 15: Mock Assessment System** — Full multi-category mock assessments generating diagnostic reports.
+- **Phase 16: External Telemetry Sync** — GitHub REST API and Codeforces public API integration.
+- **Phase 17: Multi-Companion Deepening** — Expanding voice dialogues, ambient reactions, and distinct coaching engines.
+- **Phase 18: Unified Career Operating Loop** — Continuous end-to-end recalibration loop from student goal to career offer.

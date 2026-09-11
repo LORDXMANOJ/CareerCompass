@@ -490,61 +490,98 @@ The catalog has been expanded to **125 normalized problems**:
 
 ---
 
-# 9. Phase 9 — Post-Problem Feedback & Adaptive Recommendation Engine
+# 9. Phase 9 — Adaptive Coding Intelligence & Daily Practice Engine — COMPLETED
 
-## Goal
+## Summary
 
-Turn Problem Lab into a learning loop.
+Phase 9 transforms CareerCompass Problem Lab and Today's Practice into an authentic, deterministic adaptive coding intelligence system. Recommendations and workloads are grounded strictly in real user evidence with zero artificial fabrication.
 
-After every attempt, collect:
+## Implemented Architecture
 
-- attempted/solved
-- confidence
-- perceived difficulty
-- friction
-- time spent
-- notes
+### 1. Adaptive Daily Practice Budget
+- Semester baseline bounds:
+  - **Semester 1–2**: 2–4 problems/day (baseline 3)
+  - **Semester 3–4**: 5–8 problems/day (baseline 6)
+  - **Semester 5–6**: 8–12 problems/day (baseline 10)
+  - **Semester 7–8**: 10–15 problems/day (baseline 12)
+  - **Graduated / Placement Ready**: 12–20 problems/day (baseline 15)
+- Telemetry calibration:
+  - **Readiness adjustment**: ±1 depending on overall diagnostic score
+  - **Performance adjustment**: +1 when recent solve rate >= 80% with low friction; -2 when solve rate <= 40% or friction >= 3 to protect user and reinforce concepts
+  - **Placement catch-up**: +1 for seniors (Semester >= 5) still building foundational DSA
+  - **Explainable justification**: Human-readable breakdown explaining the daily count and target mix
 
-Then adapt future recommendations.
+### 2. Topic Gap Engine
+- 5 discrete, conservative mastery states:
+  - **Unknown**: No logged attempts
+  - **Weak**: 0 solves with attempts, or solve rate < 40%, or average confidence < 2.2
+  - **Developing**: 1–2 solves with emerging consistency
+  - **Competent**: >= 2 solves, solve rate >= 65%, average confidence >= 3.2
+  - **Strong**: >= 5 solves, solve rate >= 80%, average confidence >= 4.0, including Medium/Hard solves
+- Topic-level primary friction tracking across:
+  - Concept Misunderstanding, Approach Failure, Coding Error, Complexity Issue, Edge Cases
+- Reinforcement flag (`needsReinforcement`): Triggered by low-confidence solves or recent friction
 
-## Example
+### 3. Decoupled Difficulty Adaptation
+- Difficulty performance tracked independently per topic (e.g. Arrays = Competent, Graphs = Weak).
+- Prevents premature Hard problem spamming by recommending foundational prerequisites first.
+- Profile-level recommended difficulty scales gracefully (Easy -> Medium -> Hard).
 
-If a student repeatedly struggles with Graphs:
+### 4. Recommendation Engine V2 & Diversity Mix
+- Transparent weighted scoring:
+  - Weak Topic Relevance: 30%
+  - Skill Gap Relevance: 20%
+  - Target Role Relevance: 20%
+  - Target Company Match: 15%
+  - Difficulty Fit: 15%
+  - Reinforcement Bonus: +15 points
+  - Solved-Problem Repetition Penalty: -100 to -400 points
+- Balanced diversity composition across slots:
+  - Foundation / Core
+  - Targeted Weakness
+  - Role & Company Relevance
+  - Stretch Problem
+  - Review Problem
 
-- recommend prerequisite Graph problems
-- emphasize BFS/DFS
-- lower difficulty when necessary
-- rebuild foundations
+### 5. Deterministic Daily Practice Score & 7-Day Trend
+- Formula (when solvedCount > 0):
+  - Completion Rate (30%) + Solve Rate (30%) + Normalized Confidence (20%) + Difficulty Index (20%)
+- **Zero Fabrication**: Returns `score: null` and label `"No score yet"` when 0 problems solved today.
+- 7-Day calendar array: Missing days remain zeroed with `score: null`.
 
-If the student consistently solves Medium problems confidently:
+### 6. UI & Companion Upgrades
+- **Dashboard Today's Practice**: Displays recommended/completed/remaining counts, focus topic badge, next recommended problem callout with explainable reason, daily score, and dual action links ("Open Problem Lab" and "Start Practice").
+- **Problem Lab Workspace**: Added dedicated "Topic Gaps" tab with comprehensive mastery grid, roadmap phase alignment, and practice CTAs.
+- **Persistent Companion**: Mentor surfaces contextual practice coaching for `/dashboard` and `/problems` without render-loop side effects.
 
-- increase Medium exposure
-- introduce selected Hard problems
+### 7. Persistence & Security
+- Migration `005_add_daily_practice.sql`: `user_daily_practice` table with RLS (`auth.uid() = user_id`).
+- Migration `006_add_user_problem_attempts.sql`: `user_problem_attempts` normalized log with RLS and compound indexes.
+- Client isolation: Strictly user-scoped queries and zero exposed credentials.
 
-If the student repeatedly fails Hard problems:
-
-- do not simply recommend more Hard problems
-- identify prerequisite gaps
-
-## Final loop
-
-```text
-Profile
- ↓
-Skill Gap
- ↓
-Problem
- ↓
-Attempt
- ↓
-Feedback
- ↓
-Updated Gap
- ↓
-Next Problem
-```
-
-This phase should also influence future Daily Practice.
+### 8. Verification & Deterministic Test Suite
+- Automated test script: `scripts/test-adaptive-intelligence.ts`
+- Verified all 20 required deterministic scenarios:
+  1. Semester 1 budget [2,4]
+  2. Semester 4 budget [5,8]
+  3. Semester 8 budget [10,15]
+  4. Graduated budget [12,20]
+  5. Strong performance adaptation (+1)
+  6. Weak performance adaptation (-2)
+  7. Repeated failures drop topic to Weak
+  8. Repeated successes advance topic to Strong
+  9. Skipped problems treated as weak evidence
+  10. Solved problems tracked in solvedIds
+  11. Low confidence triggers reinforcement flag
+  12. Difficulty adaptation recommends Medium after Easy proficiency
+  13. Primary friction detected and recorded
+  14. Topic weakness surfaced in profile
+  15. Company relevance score boost
+  16. Role relevance scoring differentiation
+  17. Solved-problem repetition penalty
+  18. Insufficient-data score (`score: null`)
+  19. Empty history unrecorded days (`score: null`)
+  20. Daily plan generation stability (reference equality)
 
 ---
 
