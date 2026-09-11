@@ -15,6 +15,7 @@ import { StepSynthesisReport } from "@/components/onboarding/step-synthesis-repo
 import { MentorPanel } from "@/components/onboarding/mentor-panel";
 import { useCompanionTheme } from "@/lib/companion-theme-context";
 import { normalizeDashboardState } from "@/lib/dashboard-intelligence";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface OnboardingFlowProps {
   initialEmail?: string;
@@ -123,8 +124,17 @@ export function OnboardingFlow(props: OnboardingFlowProps = {}) {
   // Step 2 is full-page companion selection
   if (state.step === 2) {
     return (
-      <div className="w-full h-screen flex flex-col bg-slate-950">
-        <div className="h-14 px-4 sm:px-8 border-b border-slate-900 flex items-center justify-between shrink-0 bg-slate-950/80 backdrop-blur-md">
+      <div
+        className="w-full h-screen flex flex-col transition-colors duration-200"
+        style={{ backgroundColor: "var(--cc-bg, #030712)", color: "var(--cc-text, #f8fafc)" }}
+      >
+        <div
+          className="h-14 px-4 sm:px-8 border-b flex items-center justify-between shrink-0 backdrop-blur-md"
+          style={{
+            backgroundColor: theme.surface,
+            borderColor: theme.borderSubtle,
+          }}
+        >
           <Link href="/" className="inline-flex items-center gap-2 group">
             <div
               className="h-8 w-8 rounded-xl flex items-center justify-center text-white font-extrabold text-xs shadow-md"
@@ -132,11 +142,19 @@ export function OnboardingFlow(props: OnboardingFlowProps = {}) {
             >
               CC
             </div>
-            <span className="text-sm font-bold text-white tracking-tight">CareerCompass</span>
+            <span className="text-sm font-bold tracking-tight" style={{ color: theme.text }}>
+              CareerCompass
+            </span>
           </Link>
 
           <div className="flex items-center gap-3">
-            <div className="w-32 sm:w-48 bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+            <div
+              className="w-28 sm:w-44 h-2 rounded-full overflow-hidden border"
+              style={{
+                backgroundColor: theme.isLight ? "#e2e8f0" : "#0f172a",
+                borderColor: theme.borderSubtle,
+              }}
+            >
               <div
                 className="h-full transition-all duration-300"
                 style={{
@@ -145,7 +163,12 @@ export function OnboardingFlow(props: OnboardingFlowProps = {}) {
                 }}
               />
             </div>
-            <span className="text-xs font-semibold text-slate-400">Step 1/7</span>
+            <span className="text-xs font-semibold" style={{ color: theme.textMuted }}>
+              Step 1/7
+            </span>
+
+            {/* Global Light/Dark Theme Toggle */}
+            <ThemeToggle />
           </div>
         </div>
 
@@ -164,36 +187,58 @@ export function OnboardingFlow(props: OnboardingFlowProps = {}) {
   const isMentorStep = state.step >= 3 && state.step <= 8 && Boolean(state.selectedMentor);
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto relative z-10 px-4 sm:px-8 lg:px-10 py-6 min-h-screen flex flex-col justify-between">
-      <div>
+    <div
+      className="w-full min-h-screen transition-colors duration-200 flex flex-col justify-between"
+      style={{ backgroundColor: "var(--cc-bg, #030712)", color: "var(--cc-text, #f8fafc)" }}
+    >
+      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-10 py-6 flex-1">
         {/* Brand Header */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-900">
+        <div
+          className="flex items-center justify-between mb-8 pb-4 border-b"
+          style={{ borderColor: theme.borderSubtle }}
+        >
           <Link href="/" className="inline-flex items-center gap-3 group">
             <div
               className="h-10 w-10 rounded-2xl flex items-center justify-center text-white font-black text-sm shadow-lg group-hover:scale-105 transition-transform duration-300"
-              style={{ backgroundColor: theme.primary, boxShadow: `0 0 16px ${theme.glow}` }}
+              style={{
+                backgroundColor: theme.primary,
+                boxShadow: theme.isLight ? theme.shadowSm : `0 0 16px ${theme.glow}`,
+              }}
             >
               CC
             </div>
-            <span className="text-xl font-extrabold text-white tracking-tight">CareerCompass</span>
+            <span className="text-xl font-extrabold tracking-tight" style={{ color: theme.text }}>
+              CareerCompass
+            </span>
           </Link>
 
-          {state.step > 1 && state.step < 9 && (
-            <div className="flex items-center gap-3">
-              <div className="w-36 sm:w-56 bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+          <div className="flex items-center gap-3">
+            {state.step > 1 && state.step < 9 && (
+              <div className="hidden sm:flex items-center gap-3">
                 <div
-                  className="h-full transition-all duration-300"
+                  className="w-36 sm:w-56 h-2.5 rounded-full overflow-hidden border"
                   style={{
-                    width: `${((state.step - 1) / 7) * 100}%`,
-                    background: theme.progressGradient,
+                    backgroundColor: theme.isLight ? "#e2e8f0" : "#0f172a",
+                    borderColor: theme.borderSubtle,
                   }}
-                />
+                >
+                  <div
+                    className="h-full transition-all duration-300"
+                    style={{
+                      width: `${((state.step - 1) / 7) * 100}%`,
+                      background: theme.progressGradient,
+                    }}
+                  />
+                </div>
+                <span className="text-xs font-bold font-mono" style={{ color: theme.textMuted }}>
+                  Step {state.step - 1}/7
+                </span>
               </div>
-              <span className="text-xs font-bold text-slate-400 font-mono">
-                Step {state.step - 1}/7
-              </span>
-            </div>
-          )}
+            )}
+
+            {/* Global Light/Dark Theme Toggle */}
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Step Routing with Dedicated Mentor Column on Desktop */}

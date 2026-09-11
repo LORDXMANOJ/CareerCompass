@@ -21,10 +21,14 @@ import {
   Sliders,
   SunMoon,
   Compass,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 export function CompanionAppearanceSettings() {
   const {
+    mode,
+    setMode,
     activeCompanion,
     activeStyle,
     activeAccent,
@@ -126,6 +130,92 @@ export function CompanionAppearanceSettings() {
             <RotateCcw className="h-3.5 w-3.5" />
             <span>Reset All</span>
           </button>
+        </div>
+      </div>
+
+      {/* ------------------------------------------------------------- */}
+      {/* Section 0: Global Theme Mode (Dark / Light)                   */}
+      {/* ------------------------------------------------------------- */}
+      <div
+        className="p-5 sm:p-6 rounded-3xl border transition-all duration-300"
+        style={{
+          backgroundColor: theme.surface,
+          borderColor: theme.border,
+        }}
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <label
+              className="text-xs font-bold uppercase tracking-wider flex items-center gap-2 mb-1"
+              style={{ color: theme.textSecondary }}
+            >
+              <SunMoon className="h-4 w-4" style={{ color: theme.primary }} />
+              <span>Theme Appearance</span>
+            </label>
+            <p className="text-sm" style={{ color: theme.textSecondary }}>
+              Switch between global high-contrast Dark Mode and clean SaaS Light Mode.
+            </p>
+          </div>
+
+          <div
+            className="inline-flex items-center p-1.5 rounded-2xl border gap-1.5 self-start sm:self-auto"
+            style={{
+              backgroundColor: theme.surfaceMuted,
+              borderColor: theme.borderSubtle,
+            }}
+            role="radiogroup"
+            aria-label="Theme mode selection"
+          >
+            <button
+              type="button"
+              role="radio"
+              aria-checked={mode === "dark"}
+              onClick={() => setMode("dark")}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200"
+              style={{
+                backgroundColor:
+                  mode === "dark" ? theme.surfaceElevated : "transparent",
+                color: mode === "dark" ? theme.text : theme.textMuted,
+                boxShadow:
+                  mode === "dark"
+                    ? "0 2px 8px rgba(0,0,0,0.25)"
+                    : "none",
+                border:
+                  mode === "dark"
+                    ? `1px solid ${theme.borderHighlight}`
+                    : "1px solid transparent",
+              }}
+            >
+              <Moon className="h-4 w-4 text-purple-400" />
+              <span>Dark Mode</span>
+              {mode === "dark" && <Check className="h-3.5 w-3.5 text-purple-400 ml-1" />}
+            </button>
+
+            <button
+              type="button"
+              role="radio"
+              aria-checked={mode === "light"}
+              onClick={() => setMode("light")}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200"
+              style={{
+                backgroundColor:
+                  mode === "light" ? theme.surfaceElevated : "transparent",
+                color: mode === "light" ? theme.text : theme.textMuted,
+                boxShadow:
+                  mode === "light"
+                    ? "0 2px 8px rgba(0,0,0,0.1)"
+                    : "none",
+                border:
+                  mode === "light"
+                    ? `1px solid ${theme.borderHighlight}`
+                    : "1px solid transparent",
+              }}
+            >
+              <Sun className="h-4 w-4 text-amber-500" />
+              <span>Light Mode</span>
+              {mode === "light" && <Check className="h-3.5 w-3.5 text-amber-500 ml-1" />}
+            </button>
+          </div>
         </div>
       </div>
 

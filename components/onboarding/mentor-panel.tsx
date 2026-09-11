@@ -62,7 +62,10 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                 className="h-2 w-2 rounded-full animate-pulse"
                 style={{ backgroundColor: theme.primary }}
               />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-mono">
+              <span
+                className="text-[11px] font-bold uppercase tracking-wider font-mono"
+                style={{ color: theme.textMuted }}
+              >
                 AI Coach • Step {step - 1} of 7
               </span>
             </div>
@@ -71,7 +74,12 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
               aria-label={isExpanded ? "Minimize coach panel" : "Expand coach panel"}
-              className="h-7 w-7 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors shrink-0"
+              className="h-7 w-7 rounded-xl border flex items-center justify-center transition-colors shrink-0"
+              style={{
+                backgroundColor: theme.surfaceMuted,
+                borderColor: theme.borderSubtle,
+                color: theme.textMuted,
+              }}
               title={isExpanded ? "Minimize Coach" : "Expand Coach"}
             >
               {isExpanded ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -106,17 +114,25 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
 
             {/* Mentor Name & Personality Badge */}
             <div className="space-y-1">
-              <h3 className="text-xl font-black text-white tracking-tight">
+              <h3
+                className="text-xl font-black tracking-tight"
+                style={{ color: theme.text }}
+              >
                 {mentor.name}
               </h3>
-              <p className="text-xs font-semibold text-slate-300">{mentor.title}</p>
+              <p
+                className="text-xs font-semibold"
+                style={{ color: theme.textSecondary }}
+              >
+                {mentor.title}
+              </p>
               <div className="pt-1">
                 <span
                   className="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full border"
                   style={{
                     backgroundColor: theme.primarySoft,
                     color: theme.primary,
-                    borderColor: theme.border,
+                    borderColor: theme.borderHighlight,
                   }}
                 >
                   {theme.personalityLabel}
@@ -134,14 +150,15 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.25 }}
-                className="px-6 pb-6 space-y-4 relative z-10 border-t border-slate-800/80 pt-4"
+                className="px-6 pb-6 space-y-4 relative z-10 border-t pt-4"
+                style={{ borderColor: theme.borderSubtle }}
               >
                 {/* Speech Bubble: Increased Typography & Contrast */}
                 <div
                   className="p-4 rounded-2xl border shadow-inner space-y-2.5 relative"
                   style={{
                     backgroundColor: theme.primarySoft,
-                    borderColor: theme.border,
+                    borderColor: theme.borderHighlight,
                   }}
                 >
                   <div
@@ -152,21 +169,30 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                     <span>{advice.title}</span>
                   </div>
 
-                  <p className="text-sm text-slate-100 leading-relaxed font-normal">
+                  <p
+                    className="text-sm leading-relaxed font-normal"
+                    style={{ color: theme.text }}
+                  >
                     {advice.speech}
                   </p>
 
-                  <div className="pt-2 border-t border-slate-800/80 flex items-center gap-2 text-xs font-medium text-emerald-300">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                  <div className="pt-2 border-t flex items-center gap-2 text-xs font-medium text-emerald-500" style={{ borderColor: theme.borderSubtle }}>
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
                     <span>{advice.actionPrompt}</span>
                   </div>
                 </div>
 
                 {/* Stat Highlight if present */}
                 {advice.statsHighlight && (
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-xs">
-                    <span className="text-slate-400 font-medium">{advice.statsHighlight.label}</span>
-                    <span className="font-bold text-white font-mono">
+                  <div
+                    className="flex items-center justify-between p-3 rounded-xl border text-xs"
+                    style={{
+                      backgroundColor: theme.surfaceMuted,
+                      borderColor: theme.borderSubtle,
+                    }}
+                  >
+                    <span style={{ color: theme.textMuted }}>{advice.statsHighlight.label}</span>
+                    <span className="font-bold font-mono" style={{ color: theme.text }}>
                       {advice.statsHighlight.value}
                     </span>
                   </div>
@@ -177,10 +203,15 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                   <button
                     type="button"
                     onClick={() => setShowExtraTip(!showExtraTip)}
-                    className="w-full text-left px-3 py-2 rounded-xl bg-slate-900/60 hover:bg-slate-900 border border-slate-800/80 text-xs text-slate-300 flex items-center justify-between transition-colors"
+                    className="w-full text-left px-3 py-2 rounded-xl border text-xs flex items-center justify-between transition-colors"
+                    style={{
+                      backgroundColor: theme.surfaceMuted,
+                      borderColor: theme.borderSubtle,
+                      color: theme.textSecondary,
+                    }}
                   >
                     <span className="flex items-center gap-2">
-                      <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
+                      <Lightbulb className="h-3.5 w-3.5 text-amber-500" />
                       <span>{mentor.name}&apos;s Benchmark Philosophy</span>
                     </span>
                     <span className="text-[10px] font-bold" style={{ color: theme.primary }}>
@@ -200,7 +231,7 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                           className="p-3.5 rounded-xl border text-xs italic leading-relaxed mt-2"
                           style={{
                             backgroundColor: theme.primarySoft,
-                            borderColor: theme.border,
+                            borderColor: theme.borderHighlight,
                             color: theme.textAccent || theme.primary,
                           }}
                         >
@@ -268,26 +299,31 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 26, stiffness: 280 }}
-              className="w-full bg-slate-950 border-t border-slate-800 rounded-t-3xl p-6 shadow-2xl max-h-[85vh] overflow-y-auto space-y-4"
+              className="w-full border-t rounded-t-3xl p-6 shadow-2xl max-h-[85vh] overflow-y-auto space-y-4"
+              style={{
+                backgroundColor: theme.surface,
+                borderColor: theme.border,
+                color: theme.text,
+              }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-4 border-b" style={{ borderColor: theme.borderSubtle }}>
                 <div className="flex items-center gap-4">
                   <div
                     className="p-2 rounded-2xl border"
-                    style={{ backgroundColor: theme.primarySoft, borderColor: theme.border }}
+                    style={{ backgroundColor: theme.primarySoft, borderColor: theme.borderHighlight }}
                   >
                     <CompanionAvatar id={mentor.id} size={70} className="rounded-xl" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-white">{mentor.name}</h3>
-                    <p className="text-xs text-slate-400">{mentor.title}</p>
+                    <h3 className="text-lg font-black" style={{ color: theme.text }}>{mentor.name}</h3>
+                    <p className="text-xs" style={{ color: theme.textSecondary }}>{mentor.title}</p>
                     <span
                       className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border mt-1 inline-block"
                       style={{
                         backgroundColor: theme.primarySoft,
                         color: theme.primary,
-                        borderColor: theme.border,
+                        borderColor: theme.borderHighlight,
                       }}
                     >
                       {theme.personalityLabel}
@@ -297,7 +333,12 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                 <button
                   type="button"
                   onClick={() => setIsMobileDrawerOpen(false)}
-                  className="h-9 w-9 rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-white flex items-center justify-center"
+                  className="h-9 w-9 rounded-full border flex items-center justify-center transition-colors"
+                  style={{
+                    backgroundColor: theme.surfaceMuted,
+                    borderColor: theme.borderSubtle,
+                    color: theme.textMuted,
+                  }}
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -306,7 +347,7 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
               <div className="space-y-4">
                 <div
                   className="p-4 rounded-2xl border space-y-2"
-                  style={{ backgroundColor: theme.primarySoft, borderColor: theme.border }}
+                  style={{ backgroundColor: theme.primarySoft, borderColor: theme.borderHighlight }}
                 >
                   <div
                     className="text-xs font-black uppercase tracking-wider flex items-center gap-1.5"
@@ -315,14 +356,14 @@ export function MentorPanel({ mentorId, step, state }: MentorPanelProps) {
                     <Sparkles className="h-3.5 w-3.5" />
                     <span>{advice.title}</span>
                   </div>
-                  <p className="text-sm text-slate-200 leading-relaxed">{advice.speech}</p>
-                  <div className="pt-2 border-t border-slate-800 flex items-center gap-2 text-xs font-medium text-emerald-300">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                  <p className="text-sm leading-relaxed" style={{ color: theme.text }}>{advice.speech}</p>
+                  <div className="pt-2 border-t flex items-center gap-2 text-xs font-medium text-emerald-500" style={{ borderColor: theme.borderSubtle }}>
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
                     <span>{advice.actionPrompt}</span>
                   </div>
                 </div>
 
-                <p className="text-xs italic text-slate-400 px-1 leading-relaxed">
+                <p className="text-xs italic px-1 leading-relaxed" style={{ color: theme.textSecondary }}>
                   &ldquo;{mentor.catchphrase}&rdquo;
                 </p>
 

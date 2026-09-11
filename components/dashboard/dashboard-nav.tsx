@@ -22,6 +22,7 @@ import { signOutAction } from "@/app/auth/actions";
 import { MENTOR_PERSONAS } from "@/constants";
 import { useCompanionTheme } from "@/lib/companion-theme-context";
 import { AnimatePresence, motion } from "framer-motion";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface DashboardNavProps {
   userName: string;
@@ -127,6 +128,9 @@ export function DashboardNav({
               <Compass className="h-3.5 w-3.5" style={{ color: theme.textMuted }} />
               <span>Retake Onboarding</span>
             </Link>
+
+            {/* Global Light/Dark Theme Toggle */}
+            <ThemeToggle />
 
             {/* Settings & Appearance Link */}
             <Link
@@ -252,27 +256,31 @@ export function DashboardNav({
             </div>
 
             <div
-              className="pt-2 border-t flex items-center justify-between text-xs"
+              className="pt-2 border-t flex items-center justify-between text-xs gap-2 flex-wrap"
               style={{ borderColor: theme.borderSubtle }}
             >
-              <Link
-                href="/settings"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-1.5 py-1.5"
-                style={{ color: theme.textMuted }}
-              >
-                <Settings className="h-3.5 w-3.5" />
-                <span>Companion Settings</span>
-              </Link>
-              <Link
-                href="/onboarding"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-1.5 py-1.5"
-                style={{ color: theme.textMuted }}
-              >
-                <Compass className="h-3.5 w-3.5" />
-                <span>Retake Onboarding</span>
-              </Link>
+              <ThemeToggle showLabel />
+
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/settings"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-1.5 py-1.5"
+                  style={{ color: theme.textMuted }}
+                >
+                  <Settings className="h-3.5 w-3.5" />
+                  <span>Settings</span>
+                </Link>
+                <Link
+                  href="/onboarding"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-1.5 py-1.5"
+                  style={{ color: theme.textMuted }}
+                >
+                  <Compass className="h-3.5 w-3.5" />
+                  <span>Onboarding</span>
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

@@ -420,9 +420,15 @@ export interface CompanionThemeTokens {
   success: string;
   warning: string;
   danger: string;
+
+  // Global Theme Mode
+  mode: ThemeMode;
 }
 
+export type ThemeMode = "dark" | "light";
+
 export interface CompanionThemeCustomization {
+  mode?: ThemeMode;
   styleId?: UIStyleId;
   accentId?: AccentColorId;
   accentIntensity?: AccentIntensity;
@@ -439,10 +445,23 @@ export function resolveTheme(
   const normCompId = (companionId?.toLowerCase() as CompanionThemeId) || "athena";
   const defaultMapping = COMPANION_DEFAULT_THEMES[normCompId] || COMPANION_DEFAULT_THEMES.athena;
 
-  const styleId: UIStyleId = customization?.styleId || defaultMapping.styleId;
+  // Global mode: "dark" or "light" (defaults to "dark")
+  const mode: ThemeMode =
+    customization?.mode || (customization?.styleId === "light" ? "light" : "dark");
+  const isLight = mode === "light";
+
+  // When global mode is light, surfaces use the light SaaS preset
+  // When global mode is dark, use chosen dark style (fallback from "light" to default dark style)
+  let styleId: UIStyleId = customization?.styleId || defaultMapping.styleId;
+  if (isLight) {
+    styleId = "light";
+  } else if (styleId === "light") {
+    styleId = defaultMapping.styleId === "light" ? "professional-dark" : defaultMapping.styleId;
+  }
+
   const accentId: AccentColorId = customization?.accentId || defaultMapping.accentId;
 
-  const style = UI_STYLE_PRESETS[styleId] || UI_STYLE_PRESETS["professional-dark"];
+  const style = UI_STYLE_PRESETS[styleId] || (isLight ? UI_STYLE_PRESETS["light"] : UI_STYLE_PRESETS["professional-dark"]);
   const accent = ACCENT_PRESETS[accentId] || ACCENT_PRESETS["violet"];
 
   // Handle glow intensity
@@ -493,6 +512,7 @@ export function resolveTheme(
   };
 
   return {
+    mode,
     id: normCompId,
     name: companionNames[normCompId] || "Mentor",
     personalityLabel: companionPersonas[normCompId] || "AI Mentor",
@@ -598,5 +618,6 @@ export function generateThemeCssVariables(theme: CompanionThemeTokens): Record<s
     "--cc-shadow-md": theme.shadowMd,
     "--cc-shadow-lg": theme.shadowLg,
     "--cc-is-light": theme.isLight ? "1" : "0",
+    "--cc-mode": theme.mode,
   };
 }

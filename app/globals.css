@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  .dark,
+  [data-theme="dark"] {
     --background: 222 47% 3%;
     --foreground: 210 40% 98%;
     --card: 222 47% 4%;
@@ -24,8 +26,9 @@
     --input: 217 33% 17%;
     --ring: 243 75% 59%;
     --radius: 0.75rem;
+    color-scheme: dark;
 
-    /* CareerCompass Companion Theme Tokens (Default: Athena) */
+    /* CareerCompass Companion Theme Tokens (Default: Athena Dark) */
     --cc-primary: #6366f1;
     --cc-primary-hover: #4f46e5;
     --cc-primary-soft: rgba(99, 102, 241, 0.14);
@@ -35,15 +38,42 @@
     --cc-background-secondary: #0b0f19;
     --cc-surface: rgba(15, 23, 42, 0.65);
     --cc-surface-elevated: rgba(30, 41, 59, 0.8);
+    --cc-surface-muted: rgba(15, 23, 42, 0.45);
     --cc-border: rgba(99, 102, 241, 0.18);
+    --cc-border-subtle: rgba(99, 102, 241, 0.10);
     --cc-border-highlight: rgba(99, 102, 241, 0.45);
     --cc-text: #f8fafc;
+    --cc-text-secondary: #cbd5e1;
     --cc-text-muted: #94a3b8;
     --cc-text-accent: #a5b4fc;
     --cc-glow: rgba(99, 102, 241, 0.35);
     --cc-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #38bdf8 100%);
     --cc-selection: rgba(99, 102, 241, 0.3);
     --cc-progress: linear-gradient(90deg, #6366f1, #8b5cf6, #38bdf8);
+  }
+
+  .light,
+  [data-theme="light"] {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 243 75% 59%;
+    color-scheme: light;
   }
 
   [data-companion="athena"] {
@@ -118,25 +148,13 @@
     --cc-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 50%, #eab308 100%);
   }
 
-  [data-style="light"] {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    color-scheme: light;
-  }
-
   * {
     @apply border-border;
   }
   body {
     background-color: var(--cc-bg, #030712);
     color: var(--cc-text, #f8fafc);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
 
@@ -170,6 +188,9 @@
   }
 
   /* Semantic Theme-Aware Component Tokens */
+  .cc-bg {
+    background-color: var(--cc-bg);
+  }
   .cc-card {
     background-color: var(--cc-surface);
     border-color: var(--cc-border);

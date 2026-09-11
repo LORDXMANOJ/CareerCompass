@@ -8,6 +8,7 @@ import {
   AccentColorId,
   AccentIntensity,
   GlowIntensity,
+  ThemeMode,
   resolveTheme,
   generateThemeCssVariables,
   COMPANION_DEFAULT_THEMES,
@@ -17,6 +18,7 @@ import {
 } from "@/constants/companion-themes";
 
 export interface CompanionThemePreferences {
+  mode?: ThemeMode;
   companionId: CompanionThemeId;
   styleId: UIStyleId;
   accentId: AccentColorId;
@@ -26,6 +28,7 @@ export interface CompanionThemePreferences {
 }
 
 interface CompanionThemeContextType {
+  mode: ThemeMode;
   activeCompanion: CompanionThemeId;
   activeStyle: UIStyleId;
   activeAccent: AccentColorId;
@@ -37,6 +40,8 @@ interface CompanionThemeContextType {
   glowIntensity: GlowIntensity;
   isCustomized: boolean;
 
+  setMode: (mode: ThemeMode) => void;
+  toggleMode: () => void;
   setCompanion: (id: CompanionThemeId) => void;
   setStyle: (id: UIStyleId) => void;
   setAccent: (id: AccentColorId) => void;
@@ -50,6 +55,7 @@ interface CompanionThemeContextType {
 }
 
 const STORAGE_KEY = "cc_theme_preferences_v2";
+const MODE_STORAGE_KEY = "cc_theme_mode";
 const DEFAULT_COMPANION: CompanionThemeId = "athena";
 
 const CompanionThemeContext = createContext<CompanionThemeContextType | null>(null);
@@ -66,6 +72,7 @@ export function CompanionThemeProvider({
     return COMPANION_THEMES[norm] ? norm : DEFAULT_COMPANION;
   }, [initialCompanion]);
 
+  const [mode, setModeState] = useState<ThemeMode>("dark");
   const [activeCompanion, setActiveCompanionState] = useState<CompanionThemeId>(normInitialCompanion);
   const [activeStyle, setActiveStyleState] = useState<UIStyleId>(() => {
     return COMPANION_DEFAULT_THEMES[normInitialCompanion]?.styleId || "professional-dark";
@@ -82,12 +89,22 @@ export function CompanionThemeProvider({
   const [previewStyle, setPreviewStyle] = useState<UIStyleId | null>(null);
   const [previewAccent, setPreviewAccent] = useState<AccentColorId | null>(null);
 
-  // Load user saved preferences from localStorage on mount
+  // Load user saved preferences from localStorage on mount (SSR safe)
   useEffect(() => {
     try {
+      // 1. Check dedicated theme mode storage key
+      const savedMode = localStorage.getItem(MODE_STORAGE_KEY) as ThemeMode | null;
+      if (savedMode === "light" || savedMode === "dark") {
+        setModeState(savedMode);
+      }
+
+      // 2. Check full preferences object
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed: Partial<CompanionThemePreferences> = JSON.parse(saved);
+        if (!savedMode && (parsed.mode === "light" || parsed.mode === "dark")) {
+          setModeState(parsed.mode);
+        }
         if (parsed.companionId && COMPANION_THEMES[parsed.companionId]) {
           setActiveCompanionState(parsed.companionId);
         }
@@ -112,17 +129,30 @@ export function CompanionThemeProvider({
 
   const theme = useMemo(() => {
     return resolveTheme(effectiveCompanion, {
+      mode,
       styleId: effectiveStyle,
       accentId: effectiveAccent,
       accentIntensity,
       glowIntensity,
     });
-  }, [effectiveCompanion, effectiveStyle, effectiveAccent, accentIntensity, glowIntensity]);
+  }, [effectiveCompanion, mode, effectiveStyle, effectiveAccent, accentIntensity, glowIntensity]);
 
   // Apply CSS variables and dataset attributes to root document
   useEffect(() => {
     if (typeof document === "undefined") return;
     const root = document.documentElement;
+
+    // Apply class and data-theme to HTML root
+    if (mode === "light") {
+      root.classList.remove("dark");
+      root.classList.add("light");
+      root.setAttribute("data-theme", "light");
+    } else {
+      root.classList.remove("light");
+      root.classList.add("dark");
+      root.setAttribute("data-theme", "dark");
+    }
+
     root.setAttribute("data-companion", effectiveCompanion);
     root.setAttribute("data-style", effectiveStyle);
     root.setAttribute("data-accent", effectiveAccent);
@@ -131,7 +161,7 @@ export function CompanionThemeProvider({
     Object.entries(cssVars).forEach(([key, val]) => {
       root.style.setProperty(key, val);
     });
-  }, [theme, effectiveCompanion, effectiveStyle, effectiveAccent]);
+  }, [theme, mode, effectiveCompanion, effectiveStyle, effectiveAccent]);
 
   const saveToStorage = useCallback(
     (prefs: CompanionThemePreferences) => {
@@ -143,6 +173,31 @@ export function CompanionThemeProvider({
     },
     []
   );
+
+  const setMode = useCallback(
+    (nextMode: ThemeMode) => {
+      setModeState(nextMode);
+      try {
+        localStorage.setItem(MODE_STORAGE_KEY, nextMode);
+      } catch {
+        // Ignore localStorage error
+      }
+      saveToStorage({
+        mode: nextMode,
+        companionId: activeCompanion,
+        styleId: activeStyle,
+        accentId: activeAccent,
+        accentIntensity,
+        glowIntensity,
+        isCustomized,
+      });
+    },
+    [activeCompanion, activeStyle, activeAccent, accentIntensity, glowIntensity, isCustomized, saveToStorage]
+  );
+
+  const toggleMode = useCallback(() => {
+    setMode(mode === "dark" ? "light" : "dark");
+  }, [mode, setMode]);
 
   const setCompanion = useCallback(
     (id: CompanionThemeId) => {
@@ -165,6 +220,7 @@ export function CompanionThemeProvider({
       }
 
       saveToStorage({
+        mode,
         companionId: validId,
         styleId: nextStyle,
         accentId: nextAccent,
@@ -173,7 +229,7 @@ export function CompanionThemeProvider({
         isCustomized,
       });
     },
-    [activeStyle, activeAccent, isCustomized, accentIntensity, glowIntensity, saveToStorage]
+    [mode, activeStyle, activeAccent, isCustomized, accentIntensity, glowIntensity, saveToStorage]
   );
 
   const setStyle = useCallback(
@@ -182,6 +238,7 @@ export function CompanionThemeProvider({
       setActiveStyleState(styleId);
       setIsCustomizedState(true);
       saveToStorage({
+        mode,
         companionId: activeCompanion,
         styleId,
         accentId: activeAccent,
@@ -190,7 +247,7 @@ export function CompanionThemeProvider({
         isCustomized: true,
       });
     },
-    [activeCompanion, activeAccent, accentIntensity, glowIntensity, saveToStorage]
+    [mode, activeCompanion, activeAccent, accentIntensity, glowIntensity, saveToStorage]
   );
 
   const setAccent = useCallback(
@@ -199,6 +256,7 @@ export function CompanionThemeProvider({
       setActiveAccentState(accentId);
       setIsCustomizedState(true);
       saveToStorage({
+        mode,
         companionId: activeCompanion,
         styleId: activeStyle,
         accentId,
@@ -207,13 +265,14 @@ export function CompanionThemeProvider({
         isCustomized: true,
       });
     },
-    [activeCompanion, activeStyle, accentIntensity, glowIntensity, saveToStorage]
+    [mode, activeCompanion, activeStyle, accentIntensity, glowIntensity, saveToStorage]
   );
 
   const setAccentIntensity = useCallback(
     (intensity: AccentIntensity) => {
       setAccentIntensityState(intensity);
       saveToStorage({
+        mode,
         companionId: activeCompanion,
         styleId: activeStyle,
         accentId: activeAccent,
@@ -222,13 +281,14 @@ export function CompanionThemeProvider({
         isCustomized,
       });
     },
-    [activeCompanion, activeStyle, activeAccent, glowIntensity, isCustomized, saveToStorage]
+    [mode, activeCompanion, activeStyle, activeAccent, glowIntensity, isCustomized, saveToStorage]
   );
 
   const setGlowIntensity = useCallback(
     (intensity: GlowIntensity) => {
       setGlowIntensityState(intensity);
       saveToStorage({
+        mode,
         companionId: activeCompanion,
         styleId: activeStyle,
         accentId: activeAccent,
@@ -237,7 +297,7 @@ export function CompanionThemeProvider({
         isCustomized,
       });
     },
-    [activeCompanion, activeStyle, activeAccent, accentIntensity, isCustomized, saveToStorage]
+    [mode, activeCompanion, activeStyle, activeAccent, accentIntensity, isCustomized, saveToStorage]
   );
 
   const resetToCompanionDefault = useCallback(() => {
@@ -248,6 +308,7 @@ export function CompanionThemeProvider({
     setGlowIntensityState("soft");
     setIsCustomizedState(false);
     saveToStorage({
+      mode,
       companionId: activeCompanion,
       styleId: defaultPair.styleId,
       accentId: defaultPair.accentId,
@@ -255,9 +316,10 @@ export function CompanionThemeProvider({
       glowIntensity: "soft",
       isCustomized: false,
     });
-  }, [activeCompanion, saveToStorage]);
+  }, [mode, activeCompanion, saveToStorage]);
 
   const resetToDefault = useCallback(() => {
+    setModeState("dark");
     setActiveCompanionState(DEFAULT_COMPANION);
     const defaultPair = COMPANION_DEFAULT_THEMES[DEFAULT_COMPANION];
     setActiveStyleState(defaultPair.styleId);
@@ -265,7 +327,11 @@ export function CompanionThemeProvider({
     setAccentIntensityState("balanced");
     setGlowIntensityState("soft");
     setIsCustomizedState(false);
+    try {
+      localStorage.setItem(MODE_STORAGE_KEY, "dark");
+    } catch {}
     saveToStorage({
+      mode: "dark",
       companionId: DEFAULT_COMPANION,
       styleId: defaultPair.styleId,
       accentId: defaultPair.accentId,
@@ -277,6 +343,7 @@ export function CompanionThemeProvider({
 
   const value = useMemo(
     () => ({
+      mode,
       activeCompanion,
       activeStyle,
       activeAccent,
@@ -287,6 +354,8 @@ export function CompanionThemeProvider({
       accentIntensity,
       glowIntensity,
       isCustomized,
+      setMode,
+      toggleMode,
       setCompanion,
       setStyle,
       setAccent,
@@ -299,6 +368,7 @@ export function CompanionThemeProvider({
       resetToDefault,
     }),
     [
+      mode,
       activeCompanion,
       activeStyle,
       activeAccent,
@@ -309,6 +379,8 @@ export function CompanionThemeProvider({
       accentIntensity,
       glowIntensity,
       isCustomized,
+      setMode,
+      toggleMode,
       setCompanion,
       setStyle,
       setAccent,
@@ -334,6 +406,7 @@ export function useCompanionTheme() {
   if (!ctx) {
     const fallbackTheme = resolveTheme("athena");
     return {
+      mode: "dark" as ThemeMode,
       activeCompanion: "athena" as CompanionThemeId,
       activeStyle: "professional-dark" as UIStyleId,
       activeAccent: "violet" as AccentColorId,
@@ -344,6 +417,8 @@ export function useCompanionTheme() {
       accentIntensity: "balanced" as AccentIntensity,
       glowIntensity: "soft" as GlowIntensity,
       isCustomized: false,
+      setMode: () => {},
+      toggleMode: () => {},
       setCompanion: () => {},
       setStyle: () => {},
       setAccent: () => {},

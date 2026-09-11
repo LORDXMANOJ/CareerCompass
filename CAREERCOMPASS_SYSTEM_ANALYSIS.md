@@ -32,6 +32,7 @@ CareerCompass is evolving from a career dashboard into a **Personal Career Opera
 | **Phase 9** | Adaptive Coding Intelligence & Daily Practice Engine | Completed | `daily-practice-intelligence.ts`, `problem-intelligence.ts`, Topic Gap Engine, V2 recommendation scoring, 20 deterministic tests |
 | **Upgrade** | Persistent Website-Wide Companion | Completed | `persistent-companion.tsx`, route-aware coaching, 6 personas |
 | **Upgrade** | Adaptive Daily Practice Engine | Completed | `daily-practice-intelligence.ts`, semester baselines, deterministic scoring |
+| **Theme System** | Global Light/Dark Theme System & Sun/Moon Toggle | Completed | `companion-themes.ts`, `companion-theme-context.tsx`, `theme-toggle.tsx`, `globals.css`, Settings |
 | **Bug Fix** | Maximum Update Depth Render Loop | Resolved | State decoupled with refs, reference identity equality, zero ESLint/TS errors |
 
 ---
@@ -137,7 +138,29 @@ The website-wide companion acts as a persistent mentor embedded in the bottom-ri
 
 ---
 
-## 7. Quality Assurance & Build Verification
+## 7. Global Light/Dark Theme Architecture
+
+CareerCompass implements a unified, global light/dark theme system that decouples base surface architecture from companion-specific persona identities:
+
+### Architecture Principles
+1. **Single Source of Truth**:
+   - Theme mode (`dark` | `light`) is maintained in `CompanionThemeContext` and persisted in `localStorage` under keys `cc_theme_mode` and `cc_companion_theme_v2`.
+   - The root Next.js `<ThemeProvider>` is synchronized with `storageKey="cc_theme_mode"`, ensuring seamless SSR/client class hydration without flickering or hydration mismatches.
+2. **Decoupled Companion Identity**:
+   - Global Theme Mode (`dark` vs `light`) controls page backgrounds, card surfaces, border colors, and base text hierarchies.
+   - Companion Persona Identity (Athena, Nova, Atlas, Byte, Sage, Raven) controls accents, avatars, badge colors, glows, and mentorship catchphrases.
+   - Fixed the previous Atlas white-panel anomaly by removing companion-coupled light presets and enabling orthogonal light/dark surface modes for all companions.
+3. **Dedicated Sun/Moon Toggle (`components/theme-toggle.tsx`)**:
+   - Integrated into the desktop and mobile header navigation (`DashboardNav`).
+   - Integrated directly into the Onboarding header across all 8 steps.
+   - Uses Lucide `Sun` (when dark, to switch to light) and `Moon` (when light, to switch to dark) with accessible `aria-label`, visible focus rings, and zero emojis.
+4. **Settings Synchronization**:
+   - The Appearance Settings page (`companion-appearance-settings.tsx`) features a top-level theme mode control (`[ 🌙 Dark Mode ] [ ☀️ Light Mode ]`) linked directly to the same shared state (`mode`, `setMode`).
+   - Changes anywhere immediately update the entire application in real time.
+
+---
+
+## 8. Quality Assurance & Build Verification
 
 The codebase has undergone full automated validation:
 
@@ -153,7 +176,7 @@ npm run build         # Success (Next.js 16 Turbopack, 28/28 routes compiled)
 
 ---
 
-## 8. GitHub Actions CI/CD Pipeline
+## 9. GitHub Actions CI/CD Pipeline
 
 To ensure quality across future commits and pull requests, `.github/workflows/ci.yml` is active on `main`:
 - Runs automated dependency install (`npm ci`)
@@ -164,7 +187,7 @@ To ensure quality across future commits and pull requests, `.github/workflows/ci
 
 ---
 
-## 9. Next Roadmap Horizons (Phases 10–18)
+## 10. Next Roadmap Horizons (Phases 10–18)
 
 - **COMPLETED**: Phases 1–9 (Foundation, Auth, Career Intelligence, Dashboard, Command Center, Roadmap, Skills, Problem Lab, Adaptive Practice Engine)
 - **NEXT — Phase 10: Global Notification Center** — Persistent multi-category in-app notification center (Career, Skills, Problems, Companies).

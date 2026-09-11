@@ -264,7 +264,8 @@ export function PersistentCompanion({
               <button
                 type="button"
                 onClick={() => setIsBubbleDismissed(true)}
-                className="text-slate-400 hover:text-slate-200 p-0.5 rounded-md transition-colors"
+                className="p-0.5 rounded-md transition-colors hover:opacity-75"
+                style={{ color: theme.textSecondary }}
                 aria-label="Dismiss speech bubble"
               >
                 <X className="w-3.5 h-3.5" />
@@ -324,7 +325,9 @@ export function PersistentCompanion({
             style={{
               backgroundColor: theme.surface,
               borderColor: theme.border,
-              boxShadow: `0 20px 60px rgba(0,0,0,0.7), 0 0 35px ${theme.glow}`,
+              boxShadow: theme.isLight
+                ? theme.shadowLg
+                : `0 20px 60px rgba(0,0,0,0.7), 0 0 35px ${theme.glow}`,
             }}
           >
             {/* Top Atmospheric Glow */}
@@ -358,7 +361,8 @@ export function PersistentCompanion({
               <button
                 type="button"
                 onClick={() => setIsPanelOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
+                className="p-1 rounded-lg transition-colors hover:opacity-75"
+                style={{ color: theme.textSecondary }}
                 aria-label="Close mentor panel"
               >
                 <X className="w-4 h-4" />
