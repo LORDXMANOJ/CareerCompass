@@ -28,6 +28,8 @@ import { MENTOR_PERSONAS } from "@/constants";
 import { CompanionAvatar } from "@/components/onboarding/companion-avatars";
 import { useCompanionTheme } from "@/lib/companion-theme-context";
 import { OnboardingState } from "@/types";
+import { computeAdaptivePracticeProfile } from "@/lib/problem-intelligence";
+import { PROBLEMS_CATALOG } from "@/constants/problems-catalog";
 
 interface PersistentCompanionProps {
   mentorId?: string;
@@ -78,20 +80,46 @@ export function PersistentCompanion({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPanelOpen, isBubbleDismissed]);
 
+  // Safely inspect authentic practice telemetry for contextual coaching
+  const practiceInsights = useMemo(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const raw = localStorage.getItem("cc_problem_attempts_current_user");
+      if (!raw) return null;
+      const attempts = JSON.parse(raw);
+      if (!Array.isArray(attempts) || attempts.length === 0) return null;
+      return computeAdaptivePracticeProfile(attempts, PROBLEMS_CATALOG, onboardingState || undefined);
+    } catch {
+      return null;
+    }
+  }, [onboardingState]);
+
   // Deterministic route context intelligence
   const routeGuidance = useMemo<RouteContextGuidance>(() => {
     const roleName = onboardingState?.targetRole || "Software Engineer";
     const targetComp = onboardingState?.targetCompanies?.[0] || "Tier-1 Tech";
 
     switch (pathname) {
-      case "/dashboard":
+      case "/dashboard": {
+        let speech = "Ready to continue today's missions and calibrate placement readiness.";
+        let panelAdvice = `Welcome back. I am tracking your daily consistency, skill verifications, and target role progress for ${roleName}. Complete today's priority tasks to keep your readiness score climbing.`;
+        if (practiceInsights) {
+          if (practiceInsights.weakTopics.length > 0) {
+            speech = `You've experienced friction with ${practiceInsights.weakTopics[0]} lately. Today's plan calibrates accessible problems before advancing.`;
+            panelAdvice = `Adaptive coaching: ${practiceInsights.adaptiveReasoning}`;
+          } else if (practiceInsights.strongTopics.length > 0) {
+            speech = `Your ${practiceInsights.strongTopics[0]} performance is solid. I've increased today's challenge slightly.`;
+            panelAdvice = `Adaptive coaching: ${practiceInsights.adaptiveReasoning}`;
+          }
+        }
         return {
           badge: "Command Center",
-          speech: "Ready to continue today's missions and calibrate placement readiness.",
-          panelAdvice: `Welcome back. I am tracking your daily consistency, skill verifications, and target role progress for ${roleName}. Complete today's priority tasks to keep your readiness score climbing.`,
+          speech,
+          panelAdvice,
           ctaText: "Practice Daily Problems",
           ctaHref: "/problems",
         };
+      }
 
       case "/roadmap":
         return {
@@ -111,14 +139,21 @@ export function PersistentCompanion({
           ctaHref: "/problems",
         };
 
-      case "/problems":
+      case "/problems": {
+        let speech = "I found practice problems matching your current gaps and target role.";
+        let panelAdvice = `Focus on solving 2 to 4 Medium problems with full asymptotic analysis rather than rushing through easy solutions. Track friction notes whenever you get stuck.`;
+        if (practiceInsights) {
+          speech = `Current focus: ${practiceInsights.recommendedFocusTopic} (${practiceInsights.recommendedDifficulty} tier). ${practiceInsights.adaptiveReasoning}`;
+          panelAdvice = `Your adaptive practice profile recommends concentrating on ${practiceInsights.recommendedFocusTopic}. Track any friction with edge cases or strategy so tomorrow's plan recalibrates accordingly.`;
+        }
         return {
           badge: "Problem Lab",
-          speech: "I found practice problems matching your current gaps and target role.",
-          panelAdvice: `Focus on solving 2 to 4 Medium problems with full asymptotic analysis rather than rushing through easy solutions. Track friction notes whenever you get stuck.`,
+          speech,
+          panelAdvice,
           ctaText: "View Roadmap Phasing",
           ctaHref: "/roadmap",
         };
+      }
 
       case "/companies":
         return {
@@ -174,7 +209,7 @@ export function PersistentCompanion({
           ctaHref: "/problems",
         };
     }
-  }, [pathname, onboardingState, mentor]);
+  }, [pathname, onboardingState, mentor, practiceInsights]);
 
   const handleTogglePanel = useCallback(() => {
     setIsPanelOpen((prev) => !prev);

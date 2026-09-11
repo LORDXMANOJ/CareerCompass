@@ -82,6 +82,10 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
   const progressPercent = Math.min(100, Math.round((completedCount / Math.max(1, recommendedCount)) * 100));
   const isTargetCompleted = completedCount >= recommendedCount;
 
+  const remainingCount = plan?.remainingCount ?? Math.max(0, recommendedCount - completedCount);
+  const nextProblem = plan?.nextRecommendedProblem;
+  const focusTopic = plan?.focusTopic;
+
   return (
     <div
       className="p-6 sm:p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between relative overflow-hidden shadow-xl"
@@ -100,7 +104,7 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
         }}
       />
 
-      <div className="relative z-10 space-y-5">
+      <div className="relative z-10 space-y-4">
         {/* Card Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b" style={{ borderColor: theme.borderSubtle }}>
           <div className="flex items-center gap-3">
@@ -128,6 +132,11 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
                 >
                   Sem {academic.currentSemester}
                 </span>
+                {focusTopic && (
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-slate-900 border border-slate-700 text-slate-300">
+                    Focus: {focusTopic}
+                  </span>
+                )}
               </div>
               <p className="text-xs mt-0.5" style={{ color: theme.textSecondary }}>
                 Personalized daily problem budget adapted to your semester &amp; readiness
@@ -154,12 +163,17 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
           </div>
         </div>
 
-        {/* Practice Budget Progress Bar */}
+        {/* Practice Budget Progress Bar & Counts */}
         <div>
           <div className="flex items-center justify-between text-xs mb-2">
-            <span className="font-bold flex items-center gap-1.5" style={{ color: theme.text }}>
+            <span className="font-bold flex items-center gap-2" style={{ color: theme.text }}>
               <Target className="w-3.5 h-3.5" style={{ color: theme.primary }} />
-              <span>{completedCount} of {recommendedCount} completed</span>
+              <span>
+                {completedCount} of {recommendedCount} completed
+              </span>
+              <span className="text-slate-400 font-normal">
+                ({remainingCount} remaining)
+              </span>
             </span>
             <span className="font-mono text-xs font-bold" style={{ color: theme.primary }}>
               {progressPercent}%
@@ -178,9 +192,52 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
           </div>
         </div>
 
+        {/* Next Recommended Problem Callout */}
+        {nextProblem ? (
+          <div
+            className="p-3.5 rounded-2xl border flex flex-col gap-1.5"
+            style={{
+              backgroundColor: theme.background,
+              borderColor: theme.borderHighlight,
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-400">
+                Next Recommended Problem
+              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700 font-mono">
+                  {nextProblem.topic}
+                </span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${
+                    nextProblem.difficulty === "Easy"
+                      ? "text-emerald-400 bg-emerald-500/10 border border-emerald-500/30"
+                      : nextProblem.difficulty === "Medium"
+                      ? "text-amber-400 bg-amber-500/10 border border-amber-500/30"
+                      : "text-rose-400 bg-rose-500/10 border border-rose-500/30"
+                  }`}
+                >
+                  {nextProblem.difficulty}
+                </span>
+              </div>
+            </div>
+            <div className="text-sm font-bold tracking-tight" style={{ color: theme.text }}>
+              {nextProblem.title}
+            </div>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              {plan?.nextProblemReason || `Recommended to strengthen your ${nextProblem.topic} fundamentals.`}
+            </p>
+          </div>
+        ) : isTargetCompleted ? (
+          <div className="p-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs text-emerald-300">
+            Daily practice target complete. Explore more problems or review challenging topics in Problem Lab.
+          </div>
+        ) : null}
+
         {/* Difficulty Distribution Breakdown */}
         <div className="grid grid-cols-3 gap-2 text-center">
-          <div className="p-2.5 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+          <div className="p-2 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
             <div className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
               Easy
             </div>
@@ -189,7 +246,7 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+          <div className="p-2 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
             <div className="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-wider">
               Medium
             </div>
@@ -198,7 +255,7 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
             </div>
           </div>
 
-          <div className="p-2.5 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+          <div className="p-2 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
             <div className="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider">
               Hard
             </div>
@@ -305,14 +362,21 @@ export function TodaysPracticeCard({ onboardingState }: TodaysPracticeCardProps)
         </div>
       </div>
 
-      {/* Action Footer Button */}
-      <div className="pt-5 mt-4 border-t relative z-10" style={{ borderColor: theme.borderSubtle }}>
+      {/* Action Footer Buttons */}
+      <div className="pt-4 mt-3 border-t grid grid-cols-1 sm:grid-cols-2 gap-2 relative z-10" style={{ borderColor: theme.borderSubtle }}>
         <Link
           href="/problems"
-          className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white shadow-md flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-[0.98]"
+          className="py-2.5 px-4 rounded-xl text-xs font-bold border flex items-center justify-center gap-1.5 transition-all hover:bg-slate-800/40"
+          style={{ borderColor: theme.borderHighlight, color: theme.text }}
+        >
+          <span>Open Problem Lab</span>
+        </Link>
+        <Link
+          href="/problems?action=start"
+          className="py-2.5 px-4 rounded-xl text-xs font-bold text-white shadow-md flex items-center justify-center gap-1.5 transition-all hover:opacity-90 active:scale-[0.98]"
           style={{ backgroundColor: theme.primary }}
         >
-          <span>Continue Today&apos;s Practice</span>
+          <span>Start Practice</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
