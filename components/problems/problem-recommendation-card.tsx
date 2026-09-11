@@ -76,6 +76,13 @@ export function ProblemRecommendationCard({
         >
           {problem.difficulty}
         </span>
+        {recommendation.category && (
+          <span
+            className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20"
+          >
+            {recommendation.category.replace("_", " ")}
+          </span>
+        )}
         <span
           className="ml-auto text-[9px] font-mono font-bold px-2 py-0.5 rounded-md"
           style={{ backgroundColor: theme.surfaceMuted, color: theme.textMuted }}
@@ -152,6 +159,13 @@ export function ProblemRecommendationCard({
             }}
           >
             <Sparkles className="w-3 h-3" /> Role-critical
+          </span>
+        )}
+        {recommendation.roadmapConnection && (
+          <span
+            className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-lg border bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+          >
+            {recommendation.roadmapConnection}
           </span>
         )}
       </div>

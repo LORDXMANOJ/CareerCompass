@@ -28,11 +28,23 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { OnboardingState } from "@/types";
-import { CodingProblem, UserProblemAttempt, ProblemProvider, ATTEMPT_STATUS_LABELS, CONFIDENCE_LABELS } from "@/types/problems";
+import {
+  CodingProblem,
+  UserProblemAttempt,
+  ProblemProvider,
+  ATTEMPT_STATUS_LABELS,
+  CONFIDENCE_LABELS,
+  FRICTION_LABELS,
+} from "@/types/problems";
 import { useCompanionTheme } from "@/lib/companion-theme-context";
 import { AppPageShell } from "@/components/layout/app-page-shell";
 import { PROBLEMS_CATALOG, DSA_TOPICS } from "@/constants/problems-catalog";
-import { computeProblemRecommendations, computeProblemStats, getTopicCoverage } from "@/lib/problem-intelligence";
+import {
+  computeProblemRecommendations,
+  computeProblemStats,
+  getTopicCoverage,
+  getRoadmapPhaseForTopic,
+} from "@/lib/problem-intelligence";
 import { useProblemTracker } from "@/lib/hooks/use-problem-tracker";
 import { ProblemRecommendationCard } from "@/components/problems/problem-recommendation-card";
 import { ProblemLogModal } from "@/components/problems/problem-log-modal";
@@ -46,7 +58,7 @@ interface ProblemsPageViewProps {
   userId: string;
 }
 
-type ActiveTab = "today" | "recommendations" | "catalog" | "history";
+type ActiveTab = "today" | "recommendations" | "topic_gaps" | "catalog" | "history";
 type PlatformFilter = "all" | ProblemProvider;
 type DifficultyFilter = "all" | "Easy" | "Medium" | "Hard";
 
@@ -79,8 +91,8 @@ export function ProblemsPageView({
 
   // Computed data
   const recommendations = useMemo(
-    () => computeProblemRecommendations(onboardingState, tracker.solvedIds, PROBLEMS_CATALOG, 12),
-    [onboardingState, tracker.solvedIds]
+    () => computeProblemRecommendations(onboardingState, tracker.solvedIds, PROBLEMS_CATALOG, 12, tracker.attempts),
+    [onboardingState, tracker.solvedIds, tracker.attempts]
   );
 
   const stats = useMemo(
@@ -162,10 +174,11 @@ export function ProblemsPageView({
 
   // Tab buttons
   const tabs: { id: ActiveTab; label: string; icon: React.ElementType }[] = [
-    { id: "today", label: "Today's Practice", icon: Target },
+    { id: "today", label: "Today's Plan", icon: Target },
     { id: "recommendations", label: "Recommended", icon: Zap },
+    { id: "topic_gaps", label: "Topic Gaps", icon: BarChart3 },
     { id: "catalog", label: "Full Catalog", icon: BookOpen },
-    { id: "history", label: "History", icon: Clock },
+    { id: "history", label: "History & Feedback", icon: Clock },
   ];
 
   return (
@@ -697,6 +710,216 @@ export function ProblemsPageView({
               </div>
               <ArrowRight className="w-4 h-4 shrink-0" style={{ color: theme.textMuted }} />
             </Link>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ────────────────────── TOPIC GAPS TAB ────────────────────── */}
+      {activeTab === "topic_gaps" && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="space-y-6"
+        >
+          {/* Adaptive Mastery Executive Summary */}
+          <div
+            className="rounded-3xl border p-6 sm:p-7 space-y-5 relative overflow-hidden shadow-xl"
+            style={{
+              backgroundColor: theme.surface,
+              borderColor: theme.border,
+              boxShadow: theme.isLight ? theme.shadowMd : `0 0 35px ${theme.glow}`,
+            }}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b" style={{ borderColor: theme.borderSubtle }}>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span
+                    className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider border"
+                    style={{
+                      backgroundColor: theme.primarySoft,
+                      borderColor: theme.borderHighlight,
+                      color: theme.primary,
+                    }}
+                  >
+                    Topic Gap Engine
+                  </span>
+                  <span className="text-xs font-mono" style={{ color: theme.textSecondary }}>
+                    Deterministic Competence Model
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight" style={{ color: theme.text }}>
+                  DSA Topic Competence &amp; Friction Analysis
+                </h2>
+                <p className="text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed" style={{ color: theme.textSecondary }}>
+                  Competence is calculated strictly from authentic solve attempts, self-reported confidence, and recorded friction. Conservative thresholds ensure mastery is earned, not assumed.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-slate-900 border border-slate-700 text-slate-300">
+                  Focus: {tracker.adaptiveProfile.recommendedFocusTopic}
+                </span>
+                <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/30">
+                  Target Tier: {tracker.adaptiveProfile.recommendedDifficulty}
+                </span>
+              </div>
+            </div>
+
+            {/* Rationale explanation */}
+            <div
+              className="p-3.5 rounded-xl border text-xs leading-relaxed"
+              style={{
+                backgroundColor: theme.background,
+                borderColor: theme.borderSubtle,
+                color: theme.textSecondary,
+              }}
+            >
+              <span className="font-bold font-mono text-purple-400 uppercase tracking-wider mr-2 text-[10px]">
+                Adaptive Rationale:
+              </span>
+              {tracker.adaptiveProfile.adaptiveReasoning}
+            </div>
+
+            {/* 4-stat metric strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-3 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+                <div className="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider">
+                  Weak Topics
+                </div>
+                <div className="text-lg font-black mt-0.5 text-rose-400">
+                  {tracker.adaptiveProfile.weakTopics.length}
+                </div>
+              </div>
+              <div className="p-3 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+                <div className="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-wider">
+                  Developing
+                </div>
+                <div className="text-lg font-black mt-0.5 text-amber-400">
+                  {tracker.adaptiveProfile.developingTopics.length}
+                </div>
+              </div>
+              <div className="p-3 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+                <div className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
+                  Strong Topics
+                </div>
+                <div className="text-lg font-black mt-0.5 text-emerald-400">
+                  {tracker.adaptiveProfile.strongTopics.length}
+                </div>
+              </div>
+              <div className="p-3 rounded-xl border bg-slate-950/40" style={{ borderColor: theme.borderSubtle }}>
+                <div className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
+                  Overall Solve Rate
+                </div>
+                <div className="text-lg font-black mt-0.5" style={{ color: theme.text }}>
+                  {Math.round(tracker.adaptiveProfile.overallSolveRate * 100)}%
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Topic Competence Grid */}
+          <div className="space-y-3">
+            <h3 className="text-base font-bold" style={{ color: theme.text }}>
+              Topic Mastery Status &amp; Prerequisite Mapping
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {DSA_TOPICS.map((topic) => {
+                const perf = tracker.adaptiveProfile.topicPerformances[topic];
+                const state = perf?.masteryState || "Unknown";
+                const roadmapPhase = getRoadmapPhaseForTopic(topic);
+
+                const stateBadgeColor =
+                  state === "Strong"
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                    : state === "Competent"
+                    ? "bg-sky-500/10 text-sky-400 border-sky-500/30"
+                    : state === "Developing"
+                    ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                    : state === "Weak"
+                    ? "bg-rose-500/10 text-rose-400 border-rose-500/30"
+                    : "bg-slate-800 text-slate-400 border-slate-700";
+
+                return (
+                  <div
+                    key={topic}
+                    className="rounded-2xl border p-4 space-y-3 transition-all hover:scale-[1.01]"
+                    style={{
+                      backgroundColor: theme.surface,
+                      borderColor: theme.borderSubtle,
+                    }}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="text-sm font-bold tracking-tight" style={{ color: theme.text }}>
+                          {topic}
+                        </h4>
+                        <div className="text-[10px] text-slate-400 mt-0.5 font-mono">
+                          {roadmapPhase}
+                        </div>
+                      </div>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase border ${stateBadgeColor}`}>
+                        {state}
+                      </span>
+                    </div>
+
+                    {/* Telemetry row */}
+                    <div className="grid grid-cols-3 gap-1.5 text-center text-xs py-1">
+                      <div className="p-1.5 rounded-lg bg-slate-950/30 border border-slate-800">
+                        <div className="text-[9px] text-slate-400 font-mono uppercase">Attempts</div>
+                        <div className="font-bold font-mono mt-0.5" style={{ color: theme.text }}>
+                          {perf?.attemptsCount || 0}
+                        </div>
+                      </div>
+                      <div className="p-1.5 rounded-lg bg-slate-950/30 border border-slate-800">
+                        <div className="text-[9px] text-slate-400 font-mono uppercase">Solved</div>
+                        <div className="font-bold font-mono mt-0.5 text-emerald-400">
+                          {perf?.solvedCount || 0}
+                        </div>
+                      </div>
+                      <div className="p-1.5 rounded-lg bg-slate-950/30 border border-slate-800">
+                        <div className="text-[9px] text-slate-400 font-mono uppercase">Confidence</div>
+                        <div className="font-bold font-mono mt-0.5 text-amber-400">
+                          {perf && perf.averageConfidence > 0 ? `${perf.averageConfidence}/5` : "-"}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Primary friction & reinforcement alert */}
+                    {perf?.primaryFriction && perf.primaryFriction !== "none" && (
+                      <div className="text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-1 rounded-md">
+                        Primary Friction: {FRICTION_LABELS[perf.primaryFriction]}
+                      </div>
+                    )}
+
+                    {perf?.needsReinforcement && (
+                      <div className="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-1 rounded-md">
+                        Needs reinforcement on fundamentals
+                      </div>
+                    )}
+
+                    {/* Action button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveTab("catalog");
+                        setTopicFilter(topic);
+                      }}
+                      className="w-full py-1.5 px-3 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1.5 transition-all hover:opacity-80"
+                      style={{
+                        backgroundColor: theme.surfaceMuted,
+                        borderColor: theme.borderSubtle,
+                        color: theme.textSecondary,
+                      }}
+                    >
+                      <span>Practice {topic}</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </motion.div>
       )}
