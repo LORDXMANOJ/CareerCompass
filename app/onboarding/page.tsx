@@ -5,16 +5,15 @@ import { OnboardingFlow } from "@/components/onboarding/onboarding-flow";
 
 async function OnboardingContainer() {
   const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const isDev = process.env.NODE_ENV === "development";
 
-  if (!claimsData?.claims && !isDev) {
+  if (!user && !isDev) {
     redirect("/login");
   }
-
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData?.user;
 
   let initialProfile = null;
   if (user) {
@@ -24,6 +23,11 @@ async function OnboardingContainer() {
       .eq("id", user.id)
       .maybeSingle();
     initialProfile = data;
+  }
+
+  // If the authenticated user has already completed onboarding, route them directly to /dashboard
+  if (user && initialProfile && initialProfile.onboarding_completed === true) {
+    redirect("/dashboard");
   }
 
   return (

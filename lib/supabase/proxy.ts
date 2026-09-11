@@ -38,14 +38,10 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Do not run code between createServerClient and
-  // supabase.auth.getClaims(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
-
-  // IMPORTANT: If you remove getClaims() and you use server-side rendering
-  // with the Supabase client, your users may be randomly logged out.
-  const { data } = await supabase.auth.getClaims();
-  const user = data?.claims;
+  // Use getUser() to securely refresh and validate the Supabase auth session
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const isDev = process.env.NODE_ENV === "development";
 
@@ -58,10 +54,14 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/auth") &&
     !(isDev && request.nextUrl.pathname.startsWith("/onboarding"))
   ) {
-    // no user, potentially respond by redirecting the user to the login page
+    // No valid user session: redirect to login page while preserving refreshed cookies
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    return NextResponse.redirect(url);
+    const redirectResponse = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie);
+    });
+    return redirectResponse;
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.

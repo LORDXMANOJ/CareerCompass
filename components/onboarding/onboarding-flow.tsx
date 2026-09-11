@@ -68,33 +68,29 @@ export function OnboardingFlow(props: OnboardingFlowProps = {}) {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    // If the account has not completed onboarding, guarantee fresh Step 1 (Welcome)
-    // and purge any stale localStorage state left over from previous browser sessions.
-    if (props.savedProfile && props.savedProfile.onboarding_completed === false) {
-      if (!props.savedProfile.target_role) {
-        localStorage.removeItem("career_compass_onboarding");
+    // 1. Restore active in-progress onboarding state from localStorage if available
+    const saved = typeof window !== "undefined" ? localStorage.getItem("career_compass_onboarding") : null;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === "object" && typeof parsed.step === "number") {
+          setState((prev) => ({ ...prev, ...parsed }));
+          return;
+        }
+      } catch {
+        // Continue to profile defaults
       }
-      setState((prev) => ({ ...prev, step: 1 }));
-      return;
     }
 
+    // 2. If saved profile exists and has partial data, normalize it
     if (props.savedProfile && props.savedProfile.target_role) {
       const normalized = normalizeDashboardState(props.savedProfile);
       setState({ ...normalized, step: 1 });
       return;
     }
 
-    const saved = localStorage.getItem("career_compass_onboarding");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === "object") {
-          setState((prev) => ({ ...prev, ...parsed }));
-        }
-      } catch {
-        // use default state
-      }
-    }
+    // 3. Otherwise start fresh at Step 1
+    setState((prev) => ({ ...prev, step: 1 }));
   }, [props.savedProfile]);
 
   const saveState = (newState: OnboardingState) => {
@@ -334,7 +330,11 @@ export function OnboardingFlow(props: OnboardingFlowProps = {}) {
               <StepSynthesisReport
                 summary={state.readinessSummary}
                 selectedMentorId={state.selectedMentor}
+                onboardingState={state}
                 isSaving={isSaving}
+                onSaved={() => {
+                  setIsSaving(false);
+                }}
               />
             )}
           </div>

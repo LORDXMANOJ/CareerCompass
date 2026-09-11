@@ -17,8 +17,11 @@ export async function GET(request: NextRequest) {
       // Shared post-auth destination determination
       const computedDestination = await getPostAuthDestination(supabase, user);
       
-      // Allow explicitly passed next URL if valid and relative, otherwise use computed destination
-      const targetDestination = (nextParam && nextParam.startsWith("/")) ? nextParam : computedDestination;
+      // If the user has not completed onboarding, guarantee they are sent to /onboarding
+      let targetDestination = computedDestination;
+      if (computedDestination === "/dashboard" && nextParam && nextParam.startsWith("/") && nextParam !== "/onboarding") {
+        targetDestination = nextParam;
+      }
 
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";

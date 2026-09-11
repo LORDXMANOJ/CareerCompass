@@ -301,14 +301,12 @@ const DiscordPanel = memo(function DiscordPanel({ type, mentor }: DiscordPanelPr
           style={{ borderColor: theme.borderSubtle }}
         >
           <div
-            className={`p-3.5 rounded-2xl border-l-4 border text-xs sm:text-[13px] leading-relaxed ${
-              isPositive
-                ? "border-l-emerald-400"
-                : "border-l-rose-400"
-            }`}
+            className="p-3.5 rounded-2xl border-t border-r border-b border-l-4 text-xs sm:text-[13px] leading-relaxed shadow-sm"
             style={{
               backgroundColor: theme.isLight ? "#f8fafc" : "rgba(2, 6, 23, 0.60)",
-              borderColor: theme.borderSubtle,
+              borderTopColor: theme.borderSubtle,
+              borderRightColor: theme.borderSubtle,
+              borderBottomColor: theme.borderSubtle,
               borderLeftColor: isPositive ? "#10b981" : "#f43f5e",
               color: theme.textSecondary,
             }}

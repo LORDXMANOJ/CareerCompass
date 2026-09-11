@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { OnboardingState, ReadinessProfileSummary } from "@/types";
+import { revalidatePath } from "next/cache";
 
 export async function calculatePlacementReadiness(data: OnboardingState): Promise<ReadinessProfileSummary> {
   let score = 30; // base starting score
@@ -111,8 +112,13 @@ export async function saveOnboardingAction(onboardingState: OnboardingState) {
     );
 
   if (error) {
-    console.error("Error saving onboarding data:", error);
+    console.error("[saveOnboardingAction] Error saving onboarding data:", error);
+    throw new Error(`Failed to save onboarding data: ${error.message}`);
   }
+
+  revalidatePath("/", "layout");
+  revalidatePath("/dashboard", "page");
+  revalidatePath("/onboarding", "page");
 
   return summary;
 }

@@ -6,17 +6,11 @@ import { DashboardView } from "@/components/dashboard/dashboard-view";
 
 async function DashboardContainer() {
   const supabase = await createClient();
-  const { data: claimsData } = await supabase.auth.getClaims();
-
-  const isDev = process.env.NODE_ENV === "development";
-
-  if (!claimsData?.claims && !isDev) {
-    redirect("/login");
-  }
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const isDev = process.env.NODE_ENV === "development";
 
   if (!user && !isDev) {
     redirect("/login");
