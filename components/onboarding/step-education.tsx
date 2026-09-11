@@ -194,7 +194,7 @@ function ScanOverlay({ phase, collegeLabel }: ScanOverlayProps) {
 
         <div className="mt-7 h-1.5 rounded-full bg-slate-800 overflow-hidden border border-slate-800">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-blue-500"
+            className="h-full rounded-full bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C]"
             initial={{ width: "0%" }}
             animate={{ width: phase >= 5 ? "100%" : `${Math.min(Math.round((phase / 5) * 100), 92)}%` }}
             transition={{ duration: 0.4 }}
@@ -621,7 +621,7 @@ export function StepEducation({
 
                   <div className="relative h-2.5 rounded-full bg-slate-800/80 border border-slate-800 mb-3">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-blue-500 transition-all duration-1000 ease-out"
+                      className="h-full rounded-full bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] transition-all duration-1000 ease-out"
                       style={{ width: `${shownScore}%` }}
                     />
                     <div
@@ -1192,11 +1192,11 @@ export function StepEducation({
               <button
                 type="button"
                 onClick={handleContinueWithCelebration}
-                className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-xl shadow-purple-600/30 transition-all flex items-center gap-2"
+                className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-xl shadow-[#9A1750]/30 transition-all flex items-center gap-2"
               >
                 <div className="text-left">
                   <div>Continue to Skills & Tech Stack</div>
-                  <div className="text-[10px] text-purple-200 font-medium">Next: Step 6 of 8</div>
+                  <div className="text-[10px] text-pink-200 font-medium">Next: Step 6 of 8</div>
                 </div>
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1.5 transition-transform shrink-0" />
               </button>

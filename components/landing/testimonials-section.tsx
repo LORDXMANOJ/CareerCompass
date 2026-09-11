@@ -65,12 +65,12 @@ export function TestimonialsSection() {
               </div>
 
               <div className="flex items-center gap-3 pt-4 border-t border-slate-900">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-purple-600 to-blue-500 flex items-center justify-center font-bold text-white text-sm">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-[#5D001E] to-[#EE4C7C] flex items-center justify-center font-bold text-white text-sm">
                   {item.name[0]}
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white">{item.name}</div>
-                  <div className="text-xs font-semibold text-purple-400">{item.role}</div>
+                  <div className="text-xs font-semibold text-[#EE4C7C]">{item.role}</div>
                   <div className="text-xs text-slate-500">{item.college}</div>
                 </div>
               </div>

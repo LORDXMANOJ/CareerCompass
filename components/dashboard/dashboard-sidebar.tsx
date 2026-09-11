@@ -133,14 +133,14 @@ export function DashboardSidebar({
                 style={{
                   backgroundColor: isActive
                     ? theme.isLight
-                      ? "rgba(139, 92, 246, 0.10)"
+                      ? theme.primarySoft
                       : "rgba(30, 41, 59, 0.90)"
                     : "transparent",
                   color: isActive
                     ? theme.isLight ? theme.primary : "#ffffff"
                     : theme.textMuted,
                   borderColor: isActive
-                    ? theme.isLight ? "rgba(139, 92, 246, 0.30)" : theme.border
+                    ? theme.isLight ? theme.borderHighlight : theme.border
                     : "transparent",
                   borderWidth: "1px",
                 }}
@@ -228,7 +228,7 @@ export function DashboardSidebar({
             }`}
             style={{
               color: pathname === "/settings" ? (theme.isLight ? theme.primary : "#ffffff") : theme.textMuted,
-              backgroundColor: pathname === "/settings" ? (theme.isLight ? "rgba(139, 92, 246, 0.10)" : "rgba(30, 41, 59, 0.90)") : "transparent",
+              backgroundColor: pathname === "/settings" ? (theme.isLight ? theme.primarySoft : "rgba(30, 41, 59, 0.90)") : "transparent",
             }}
             title="Settings & Appearance"
           >

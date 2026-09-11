@@ -10,6 +10,7 @@ export type UIStyleId =
   | "light";
 
 export type AccentColorId =
+  | "burgundy"
   | "violet"
   | "cyan"
   | "emerald"
@@ -167,23 +168,23 @@ export const UI_STYLE_PRESETS: Record<UIStyleId, UIStylePreset> = {
   },
   light: {
     id: "light",
-    name: "Light / White",
-    tagline: "Porcelain surface · Charcoal typography · Crisp focus",
-    description: "Clean modern light SaaS design system with multi-layer porcelain surfaces, high-contrast charcoal typography, subtle neutral borders, and crisp accent highlights.",
+    name: "Light / Warm Neutral",
+    tagline: "Warm neutral · Deep burgundy · Crisp focus",
+    description: "Clean modern light SaaS design system with multi-layer porcelain surfaces, warm neutral #E3E2DF undertones, deep burgundy typography, and crisp brand highlights.",
     isLight: true,
-    background: "#f8fafc",
-    backgroundSecondary: "#f1f5f9",
+    background: "#fcfbf9",
+    backgroundSecondary: "#E3E2DF",
     surface: "#ffffff",
     surfaceElevated: "#ffffff",
-    surfaceMuted: "#f8fafc",
-    border: "#e2e8f0",
-    borderSubtle: "#f1f5f9",
-    borderHighlight: "rgba(139, 92, 246, 0.40)",
-    text: "#0f172a",
-    textSecondary: "#334155",
-    textMuted: "#64748b",
+    surfaceMuted: "#f5f4f0",
+    border: "#dedcd7",
+    borderSubtle: "#eae9e5",
+    borderHighlight: "rgba(154, 23, 80, 0.35)",
+    text: "#1a0a10",
+    textSecondary: "#4a3840",
+    textMuted: "#78646c",
     blur: "none",
-    glowFactor: 0.05, // Virtually 0 to eliminate purple fog cloud
+    glowFactor: 0.05, // Virtually 0 to eliminate color fog cloud
     shadowSm: "0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04)",
     shadowMd: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05)",
     shadowLg: "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)",
@@ -208,6 +209,19 @@ export interface AccentPreset {
 }
 
 export const ACCENT_PRESETS: Record<AccentColorId, AccentPreset> = {
+  burgundy: {
+    id: "burgundy",
+    name: "Burgundy (Brand)",
+    primary: "#5D001E",
+    primaryHover: "#9A1750",
+    primarySoft: "rgba(154, 23, 80, 0.14)",
+    secondary: "#9A1750",
+    accent: "#EE4C7C",
+    textAccent: "#EE4C7C",
+    gradient: "linear-gradient(135deg, #5D001E 0%, #9A1750 50%, #EE4C7C 100%)",
+    progressGradient: "linear-gradient(90deg, #5D001E, #9A1750, #EE4C7C)",
+    glowRgb: "238, 76, 124",
+  },
   violet: {
     id: "violet",
     name: "Violet",
@@ -328,8 +342,8 @@ export const COMPANION_DEFAULT_THEMES: Record<
 > = {
   athena: {
     styleId: "professional-dark",
-    accentId: "violet",
-    label: "Professional Dark · Violet",
+    accentId: "burgundy",
+    label: "Professional Dark · Burgundy",
     description: "Structured, calm, and analytical. Focuses on systematic milestones and deep conceptual mastery.",
   },
   nova: {
@@ -462,7 +476,7 @@ export function resolveTheme(
   const accentId: AccentColorId = customization?.accentId || defaultMapping.accentId;
 
   const style = UI_STYLE_PRESETS[styleId] || (isLight ? UI_STYLE_PRESETS["light"] : UI_STYLE_PRESETS["professional-dark"]);
-  const accent = ACCENT_PRESETS[accentId] || ACCENT_PRESETS["violet"];
+  const accent = ACCENT_PRESETS[accentId] || ACCENT_PRESETS["burgundy"];
 
   // Handle glow intensity
   let glowOpacity = style.glowFactor;
@@ -593,6 +607,9 @@ export function generateThemeCssVariables(theme: CompanionThemeTokens): Record<s
     "--cc-primary-soft": theme.primarySoft,
     "--cc-secondary": theme.secondary,
     "--cc-accent": theme.accent,
+    "--cc-accent-soft": theme.isLight ? "rgba(238, 76, 124, 0.12)" : "rgba(238, 76, 124, 0.18)",
+    "--cc-soft": "#E3AFBC",
+    "--cc-neutral-light": "#E3E2DF",
     "--cc-background": theme.background,
     "--cc-bg": theme.background,
     "--cc-background-secondary": theme.backgroundSecondary,

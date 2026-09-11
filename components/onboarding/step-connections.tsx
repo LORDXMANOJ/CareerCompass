@@ -193,7 +193,7 @@ export function StepConnections({ connections, onChange, onNext, onBack }: StepC
 
         <button
           onClick={onNext}
-          className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 transition-all"
+          className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-lg shadow-[#9A1750]/30 transition-all"
         >
           Generate Profile Analysis
         </button>

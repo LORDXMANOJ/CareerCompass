@@ -14,7 +14,7 @@ export default function ProtectedLayout({
           <div className="w-full max-w-6xl flex justify-between items-center px-6 text-sm">
             <div className="flex gap-3 items-center font-bold text-lg">
               <Link href={"/"} className="flex items-center gap-2">
-                <div className="h-7 w-7 rounded-md bg-gradient-to-tr from-purple-600 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
+                <div className="h-7 w-7 rounded-md bg-gradient-to-tr from-[#5D001E] via-[#9A1750] to-[#EE4C7C] flex items-center justify-center text-white text-xs font-bold">
                   CC
                 </div>
                 <span>CareerCompass</span>

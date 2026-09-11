@@ -199,3 +199,51 @@ To ensure quality across future commits and pull requests, `.github/workflows/ci
 - **Phase 16: External Telemetry Sync** — GitHub REST API and Codeforces public API integration.
 - **Phase 17: Multi-Companion Deepening** — Expanding voice dialogues, ambient reactions, and distinct coaching engines.
 - **Phase 18: Unified Career Operating Loop** — Continuous end-to-end recalibration loop from student goal to career offer.
+
+---
+
+## 11. Default Brand Palette & Professional Typography Architecture
+
+### 11.1 Reference Color Palette
+CareerCompass adopts a confident, modern, career-focused brand identity derived from the curated editorial palette:
+- **Deep Burgundy (`#5D001E`)**: Primary brand identity color. Used for primary CTA buttons, strong brand titles, active states, and core identity markers.
+- **Burgundy / Magenta-Pink (`#9A1750`)**: Secondary brand accent. Powers interactive hover states, selected navigation markers, companion highlights, and atmospheric gradients.
+- **Bright Pink (`#EE4C7C`)**: Accent highlight. Used selectively for progress indicators, sparks, focus rings, and high-impact visual details without overwhelming surfaces.
+- **Soft Pink (`#E3AFBC`)**: Soft accent. Provides subtle badge backings, tinted surface overlays, and supportive decorative elements.
+- **Light Neutral / Warm Off-White (`#E3E2DF`)**: Warm neutral light tone. Anchors light mode backgrounds, muted cards, and subtle borders without making light mode entirely pink.
+
+### 11.2 Semantic Color Tokens
+Tokens are declared at the root level via CSS custom properties and registered in `tailwind.config.ts`:
+```css
+/* Core Semantic Tokens */
+--cc-primary: #5D001E;
+--cc-primary-hover: #9A1750;
+--cc-primary-soft: rgba(154, 23, 80, 0.16);
+--cc-secondary: #9A1750;
+--cc-accent: #EE4C7C;
+--cc-accent-soft: rgba(238, 76, 124, 0.15);
+--cc-soft: #E3AFBC;
+--cc-neutral-light: #E3E2DF;
+--cc-gradient: linear-gradient(135deg, #5D001E 0%, #9A1750 50%, #EE4C7C 100%);
+--cc-progress: linear-gradient(90deg, #5D001E, #9A1750, #EE4C7C);
+--cc-glow: rgba(238, 76, 124, 0.35);
+
+/* Semantic Accessibility States */
+--cc-success: #10b981 (accessible emerald)
+--cc-warning: #eab308 (accessible amber)
+--cc-danger: #ef4444 (accessible crimson)
+```
+
+### 11.3 Light & Dark Mode Cohesion
+- **Dark Mode**: Retains deep obsidian/navy slate surfaces (`#030712`, `#0b0f19`) ensuring maximum developer contrast. The burgundy-to-pink spectrum functions strictly as the **Brand Accent System** (borders, glowing highlights, badges, and primary action triggers).
+- **Light Mode**: Leverages `#E3E2DF` as a warm neutral surface with porcelain cards (`#ffffff`), deep burgundy typography (`#1a0a10`), and subtle warm borders (`#dedcd7`), ensuring a unified SaaS feel without neon washouts.
+- **Sun/Moon Toggle**: The global next-themes toggle persists across sessions (`cc_theme_mode`) and live-synchronizes with `CompanionThemeContext`.
+
+### 11.4 Professional Typography: Inter
+- Configured directly via `next/font/google` in `app/layout.tsx` (`subsets: ["latin"]`, `display: "swap"`).
+- Extended in `tailwind.config.ts` under `fontFamily.sans`.
+- Applied consistently across headings, navigation, buttons, forms, and cards with modern geometric letter-spacing (`-0.022em`) and font feature settings.
+
+### 11.5 Companion Persona Preservation
+The six companion personas (**Athena, Nova, Atlas, Byte, Sage, Raven**) maintain their distinct traits, dialogues, and SVG avatar artwork. Athena seamlessly champions the default CareerCompass Burgundy theme, while each companion's UI container automatically inherits global theme mode, surfaces, borders, and typography.
+

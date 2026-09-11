@@ -614,15 +614,15 @@ export function RoadmapPageView({
                 <div
                   className="h-10 w-10 rounded-2xl border flex items-center justify-center"
                   style={{
-                    backgroundColor: theme.isLight ? "rgba(99, 102, 241, 0.10)" : "rgba(79, 70, 229, 0.20)",
-                    borderColor: "rgba(99, 102, 241, 0.35)",
-                    color: theme.isLight ? "#4f46e5" : "#818cf8",
+                    backgroundColor: theme.primarySoft,
+                    borderColor: theme.borderHighlight,
+                    color: theme.primary,
                   }}
                 >
                   <Building2 className="h-5 w-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider" style={{ color: theme.isLight ? "#4f46e5" : "#818cf8" }}>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider" style={{ color: theme.primary }}>
                     Company Preparation
                   </span>
                   <h3 className="text-base sm:text-lg font-black" style={{ color: theme.text }}>

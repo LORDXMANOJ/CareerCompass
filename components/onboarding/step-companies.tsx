@@ -586,7 +586,7 @@ export function StepCompanies({
                     }}
                     className={`h-7 w-7 rounded-xl flex items-center justify-center transition-all ${
                       isSelected
-                        ? "bg-gradient-to-tr from-purple-600 to-indigo-500 text-white shadow-md shadow-purple-600/40"
+                        ? "bg-gradient-to-tr from-[#5D001E] to-[#EE4C7C] text-white shadow-md shadow-[#9A1750]/40"
                         : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"
                     }`}
                   >
@@ -910,7 +910,7 @@ export function StepCompanies({
                     setShowValidationModal(false);
                     onNext();
                   }}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30"
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-lg shadow-[#9A1750]/30"
                 >
                   Confirm & Benchmark Readiness →
                 </button>
@@ -934,7 +934,7 @@ export function StepCompanies({
 
         <div className="flex items-center gap-4">
           <span className="text-xs text-slate-400 hidden sm:inline">
-            <strong className="text-purple-400 font-bold">
+            <strong className="text-pink-400 font-bold">
               {selectedCompanies.length}
             </strong>{" "}
             Companies Selected
@@ -948,11 +948,11 @@ export function StepCompanies({
               }
             }}
             disabled={selectedCompanies.length === 0}
-            className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-xl shadow-purple-600/30 disabled:opacity-50 transition-all flex items-center gap-2"
+            className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-xl shadow-[#9A1750]/30 disabled:opacity-50 transition-all flex items-center gap-2"
           >
             <div className="text-left">
               <div>Continue</div>
-              <div className="text-[10px] text-purple-200 font-medium">
+              <div className="text-[10px] text-pink-200 font-medium">
                 Next: Education Background →
               </div>
             </div>

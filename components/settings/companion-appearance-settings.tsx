@@ -55,6 +55,7 @@ export function CompanionAppearanceSettings() {
     "light",
   ];
   const accentList: AccentColorId[] = [
+    "burgundy",
     "violet",
     "cyan",
     "emerald",

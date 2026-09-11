@@ -273,7 +273,7 @@ export function SkillCheckModal({
               <button
                 type="button"
                 onClick={handleFinish}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-purple-600/25 flex items-center justify-center gap-1.5 transition-all"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-lg shadow-[#9A1750]/25 flex items-center justify-center gap-1.5 transition-all"
               >
                 <span>{isCorrect ? "Continue" : "Got it"}</span>
                 <ArrowRight className="h-3.5 w-3.5" />

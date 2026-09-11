@@ -8,8 +8,8 @@ export function HeroSection() {
   return (
     <section className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
       {/* Background Animated Gradient Blobs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-purple-600/20 via-indigo-600/20 to-cyan-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse" />
-      <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-[#5D001E]/30 via-[#9A1750]/20 to-[#EE4C7C]/15 rounded-full blur-[140px] pointer-events-none animate-pulse" />
+      <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-[#EE4C7C]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
@@ -18,9 +18,9 @@ export function HeroSection() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs sm:text-sm font-semibold mb-8 backdrop-blur-xl shadow-lg shadow-purple-500/10"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#9A1750]/40 bg-[#5D001E]/20 text-[#EE4C7C] text-xs sm:text-sm font-semibold mb-8 backdrop-blur-xl shadow-lg shadow-[#5D001E]/20"
           >
-            <Zap className="h-4 w-4 text-purple-400 fill-purple-400/30" />
+            <Zap className="h-4 w-4 text-[#EE4C7C] fill-[#EE4C7C]/30" />
             <span>AI-POWERED PLACEMENT COMPANION ENGINE</span>
           </motion.div>
 
@@ -32,7 +32,7 @@ export function HeroSection() {
             className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-8 leading-[1.1]"
           >
             Stop Guessing. <br />
-            <span className="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-pink-300 via-rose-200 to-[#EE4C7C] bg-clip-text text-transparent">
               Start Getting Placed.
             </span>
           </motion.h1>
@@ -56,7 +56,7 @@ export function HeroSection() {
           >
             <Link
               href="/register"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold text-base shadow-xl shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-semibold text-base shadow-xl shadow-[#9A1750]/30 hover:shadow-[#EE4C7C]/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
             >
               <span>Get Started Free</span>
               <ArrowRight className="h-5 w-5" />

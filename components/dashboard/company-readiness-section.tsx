@@ -33,10 +33,10 @@ export function CompanyReadinessSection({ companies }: CompanyReadinessSectionPr
           <div
             className="h-10 w-10 rounded-2xl flex items-center justify-center"
             style={{
-              backgroundColor: theme.isLight ? "rgba(99, 102, 241, 0.10)" : "rgba(79, 70, 229, 0.20)",
-              borderColor: "rgba(99, 102, 241, 0.35)",
+              backgroundColor: theme.primarySoft,
+              borderColor: theme.borderHighlight,
               borderWidth: "1px",
-              color: theme.isLight ? "#4f46e5" : "#818cf8",
+              color: theme.primary,
             }}
           >
             <Building2 className="h-5 w-5" />
@@ -44,7 +44,7 @@ export function CompanyReadinessSection({ companies }: CompanyReadinessSectionPr
           <div>
             <span
               className="text-[10px] font-mono font-bold uppercase tracking-wider"
-              style={{ color: theme.isLight ? "#4f46e5" : "#818cf8" }}
+              style={{ color: theme.primary }}
             >
               Verified Hiring Intelligence
             </span>
@@ -205,7 +205,7 @@ export function CompanyReadinessSection({ companies }: CompanyReadinessSectionPr
                 <Link
                   href="/companies"
                   className="font-bold inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-all text-xs"
-                  style={{ color: theme.isLight ? "#4f46e5" : "#818cf8" }}
+                  style={{ color: theme.primary }}
                 >
                   <span>View Prep Plan</span>
                   <ArrowRight className="h-3 w-3" />

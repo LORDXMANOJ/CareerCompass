@@ -27,7 +27,7 @@ export function LandingNavbar() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white font-extrabold text-sm shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform duration-300">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#5D001E] via-[#9A1750] to-[#EE4C7C] flex items-center justify-center text-white font-extrabold text-sm shadow-lg shadow-[#9A1750]/30 group-hover:scale-105 transition-transform duration-300">
             CC
           </div>
           <span className="text-xl font-bold bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent tracking-tight">
@@ -64,7 +64,7 @@ export function LandingNavbar() {
           </Link>
           <Link
             href="/register"
-            className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-lg shadow-purple-600/25 hover:shadow-purple-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white shadow-lg shadow-[#9A1750]/25 hover:shadow-[#EE4C7C]/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
           >
             <span>Start Free</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -109,7 +109,7 @@ export function LandingNavbar() {
             </Link>
             <Link
               href="/register"
-              className="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-semibold shadow-lg shadow-purple-600/20"
+              className="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] text-white text-sm font-semibold shadow-lg shadow-[#9A1750]/20"
             >
               Start Free
             </Link>

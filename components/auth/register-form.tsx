@@ -68,7 +68,7 @@ export function RegisterFormContent() {
     >
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-3 group mb-4">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white font-extrabold text-base shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform duration-300">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-[#5D001E] via-[#9A1750] to-[#EE4C7C] flex items-center justify-center text-white font-extrabold text-base shadow-lg shadow-[#9A1750]/30 group-hover:scale-105 transition-transform duration-300">
             CC
           </div>
           <span className="text-2xl font-bold bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent tracking-tight">
@@ -79,9 +79,9 @@ export function RegisterFormContent() {
         <p className="text-sm text-slate-400">Join thousands of students mastering placement readiness</p>
       </div>
 
-      <div className="rounded-3xl border border-slate-800/80 bg-slate-950/60 p-8 backdrop-blur-2xl shadow-2xl shadow-purple-950/20 relative overflow-hidden">
-        <div className="absolute -top-24 -left-24 h-48 w-48 rounded-full bg-purple-600/10 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-blue-600/10 blur-3xl pointer-events-none" />
+      <div className="rounded-3xl border border-slate-800/80 bg-slate-950/60 p-8 backdrop-blur-2xl shadow-2xl shadow-[#5D001E]/20 relative overflow-hidden">
+        <div className="absolute -top-24 -left-24 h-48 w-48 rounded-full bg-[#9A1750]/15 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-[#EE4C7C]/10 blur-3xl pointer-events-none" />
 
         {displayError && (
           <div className="mb-6 p-4 rounded-2xl bg-red-950/50 border border-red-500/30 text-red-200 text-xs sm:text-sm flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
@@ -237,7 +237,7 @@ export function RegisterFormContent() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full mt-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold text-sm shadow-xl shadow-purple-600/25 hover:shadow-purple-600/40 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full mt-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-semibold text-sm shadow-xl shadow-[#9A1750]/25 hover:shadow-[#EE4C7C]/40 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {isSubmitting ? (
               <>

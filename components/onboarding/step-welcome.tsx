@@ -20,8 +20,15 @@ export function StepWelcome({ onNext }: StepWelcomeProps) {
       transition={{ duration: 0.4 }}
       className="max-w-4xl mx-auto text-center py-6 sm:py-10"
     >
-      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
-        <Sparkles className="h-4 w-4 text-purple-400" />
+      <div
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs sm:text-sm font-semibold mb-6 shadow-sm"
+        style={{
+          backgroundColor: theme.primarySoft,
+          borderColor: theme.borderHighlight,
+          color: theme.primary,
+        }}
+      >
+        <Sparkles className="h-4 w-4" style={{ color: theme.primary }} />
         <span>Welcome to CareerCompass</span>
       </div>
 
@@ -30,7 +37,10 @@ export function StepWelcome({ onNext }: StepWelcomeProps) {
         style={{ color: theme.text }}
       >
         Your AI Companion for <br />
-        <span className="bg-gradient-to-r from-purple-500 via-indigo-400 to-blue-500 bg-clip-text text-transparent">
+        <span
+          className="bg-clip-text text-transparent"
+          style={{ backgroundImage: theme.gradient }}
+        >
           Placements & Career Growth
         </span>
       </h1>
@@ -50,7 +60,13 @@ export function StepWelcome({ onNext }: StepWelcomeProps) {
             borderColor: theme.borderSubtle,
           }}
         >
-          <div className="h-10 w-10 rounded-2xl bg-purple-600/20 text-purple-400 flex items-center justify-center mb-4">
+          <div
+            className="h-10 w-10 rounded-2xl flex items-center justify-center mb-4"
+            style={{
+              backgroundColor: theme.primarySoft,
+              color: theme.primary,
+            }}
+          >
             <Bot className="h-5 w-5" />
           </div>
           <h3 className="text-base font-black mb-2" style={{ color: theme.text }}>
@@ -106,7 +122,7 @@ export function StepWelcome({ onNext }: StepWelcomeProps) {
         }}
       >
         <div className="flex items-center gap-3 mb-3 sm:mb-0">
-          <Compass className="h-5 w-5 text-purple-400 shrink-0" />
+          <Compass className="h-5 w-5 shrink-0" style={{ color: theme.primary }} />
           <span className="text-xs sm:text-sm" style={{ color: theme.textSecondary }}>
             Estimated Setup Time:{" "}
             <strong className="font-bold" style={{ color: theme.text }}>
@@ -121,7 +137,7 @@ export function StepWelcome({ onNext }: StepWelcomeProps) {
 
       <button
         onClick={onNext}
-        className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-base shadow-xl shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 inline-flex items-center justify-center gap-3"
+        className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-base shadow-xl shadow-[#9A1750]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 inline-flex items-center justify-center gap-3"
       >
         <span>Let&apos;s Begin</span>
         <ArrowRight className="h-5 w-5" />

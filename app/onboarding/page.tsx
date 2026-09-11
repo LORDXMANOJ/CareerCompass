@@ -41,9 +41,9 @@ async function OnboardingContainer() {
 
 export default function OnboardingPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white relative overflow-hidden selection:bg-purple-500 selection:text-white">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-purple-600/20 via-indigo-600/20 to-blue-500/10 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
+    <main className="min-h-screen bg-slate-950 text-white relative overflow-hidden selection:bg-[#EE4C7C] selection:text-white">
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-[#5D001E]/25 via-[#9A1750]/20 to-[#EE4C7C]/10 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-[#9A1750]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <Suspense fallback={<div className="text-slate-400 text-sm text-center py-24 animate-pulse">Initializing CareerCompass Engine...</div>}>
         <OnboardingContainer />

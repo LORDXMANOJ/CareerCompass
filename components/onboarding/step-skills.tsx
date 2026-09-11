@@ -316,10 +316,10 @@ export function StepSkills({
           <button
             type="button"
             onClick={onNext}
-            className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-xl shadow-purple-600/30 transition-all flex items-center gap-2"
+            className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-xl shadow-[#9A1750]/30 transition-all flex items-center gap-2"
           >
             <span>Continue to Experience & Projects</span>
-            <span className="text-purple-200 group-hover:translate-x-1 transition-transform">→</span>
+            <span className="text-pink-200 group-hover:translate-x-1 transition-transform">→</span>
           </button>
         </div>
       </motion.div>

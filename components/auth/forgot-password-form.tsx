@@ -21,7 +21,7 @@ export function ForgotPasswordFormContent() {
     <div className="w-full max-w-md relative z-10">
       <div className="text-center mb-8">
         <Link href="/" className="inline-flex items-center gap-3 group mb-4">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-500 flex items-center justify-center text-white font-extrabold text-base shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform duration-300">
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-[#5D001E] via-[#9A1750] to-[#EE4C7C] flex items-center justify-center text-white font-extrabold text-base shadow-lg shadow-[#9A1750]/30 group-hover:scale-105 transition-transform duration-300">
             CC
           </div>
           <span className="text-2xl font-bold bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent tracking-tight">
@@ -84,7 +84,7 @@ export function ForgotPasswordFormContent() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full mt-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-semibold text-sm shadow-xl shadow-purple-600/25 hover:shadow-purple-600/40 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full mt-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-semibold text-sm shadow-xl shadow-[#9A1750]/25 hover:shadow-[#EE4C7C]/40 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

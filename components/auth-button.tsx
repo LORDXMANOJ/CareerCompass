@@ -35,7 +35,7 @@ export async function AuthButton() {
       </Link>
       <Link
         href="/register"
-        className="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-md shadow-purple-600/20 hover:scale-[1.02] transition-all"
+        className="px-4 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white shadow-md shadow-[#9A1750]/20 hover:scale-[1.02] transition-all"
       >
         Create Account
       </Link>

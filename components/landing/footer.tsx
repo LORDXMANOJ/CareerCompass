@@ -10,7 +10,7 @@ export function LandingFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="space-y-4">
             <Link href="/" className="inline-flex items-center gap-2 font-bold text-white text-lg">
-              <div className="h-7 w-7 rounded-lg bg-gradient-to-tr from-purple-600 to-blue-500 flex items-center justify-center text-white text-xs font-black">
+              <div className="h-7 w-7 rounded-lg bg-gradient-to-tr from-[#5D001E] via-[#9A1750] to-[#EE4C7C] flex items-center justify-center text-white text-xs font-black">
                 CC
               </div>
               <span>CareerCompass</span>

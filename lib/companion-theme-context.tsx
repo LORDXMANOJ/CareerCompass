@@ -78,7 +78,7 @@ export function CompanionThemeProvider({
     return COMPANION_DEFAULT_THEMES[normInitialCompanion]?.styleId || "professional-dark";
   });
   const [activeAccent, setActiveAccentState] = useState<AccentColorId>(() => {
-    return COMPANION_DEFAULT_THEMES[normInitialCompanion]?.accentId || "violet";
+    return COMPANION_DEFAULT_THEMES[normInitialCompanion]?.accentId || "burgundy";
   });
   const [accentIntensity, setAccentIntensityState] = useState<AccentIntensity>("balanced");
   const [glowIntensity, setGlowIntensityState] = useState<GlowIntensity>("soft");
@@ -409,7 +409,7 @@ export function useCompanionTheme() {
       mode: "dark" as ThemeMode,
       activeCompanion: "athena" as CompanionThemeId,
       activeStyle: "professional-dark" as UIStyleId,
-      activeAccent: "violet" as AccentColorId,
+      activeAccent: "burgundy" as AccentColorId,
       theme: fallbackTheme,
       previewCompanion: null,
       previewStyle: null,

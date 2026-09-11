@@ -48,7 +48,7 @@ export function AppPageShell({
 
   return (
     <div
-      className="min-h-screen transition-colors duration-300 flex selection:bg-purple-500 selection:text-white"
+      className="min-h-screen transition-colors duration-300 flex selection:bg-[#EE4C7C] selection:text-white"
       style={{
         backgroundColor: "var(--cc-bg, #030712)",
         color: "var(--cc-text, #f8fafc)",

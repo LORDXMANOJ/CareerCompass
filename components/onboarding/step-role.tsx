@@ -293,7 +293,7 @@ function MiniWizard({ onSelectRole, onClose }: MiniWizardProps) {
             <button
               type="button"
               onClick={() => onSelectRole(recommendedResult.name)}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-xs shadow-lg shadow-purple-600/30 hover:scale-105 transition-all flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#5D001E] to-[#9A1750] text-white font-bold text-xs shadow-lg shadow-[#9A1750]/30 hover:scale-105 transition-all flex items-center gap-2"
             >
               <Check className="h-4 w-4" />
               <span>Select {recommendedResult.name}</span>
@@ -478,7 +478,7 @@ export function StepRole({
               initial={{ width: 0 }}
               animate={{ width: "35%" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="h-full bg-gradient-to-r from-purple-600 to-indigo-500 rounded-full"
+              className="h-full bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] rounded-full"
             />
           </div>
         </div>
@@ -825,17 +825,17 @@ export function StepRole({
                   : "bg-slate-950/70 hover:bg-slate-900/60 border-slate-800/80 hover:border-slate-700"
               }`}
               style={{
-                borderColor: isSelected ? "#a855f7" : undefined,
+                borderColor: isSelected ? "#9A1750" : undefined,
                 boxShadow: isSelected
-                  ? "0 0 28px rgba(168, 85, 247, 0.35), 0 12px 24px -6px rgba(0,0,0,0.7)"
+                  ? "0 0 28px rgba(154, 23, 80, 0.35), 0 12px 24px -6px rgba(0,0,0,0.7)"
                   : undefined,
               }}
             >
-              {/* Dynamic Purple Highlight behind selected card */}
+              {/* Dynamic Brand Highlight behind selected card */}
               {isSelected && (
                 <motion.div
                   layoutId="selectedRoleCardHighlight"
-                  className="absolute inset-0 rounded-3xl pointer-events-none -z-10 bg-gradient-to-br from-purple-600/15 via-indigo-600/10 to-transparent"
+                  className="absolute inset-0 rounded-3xl pointer-events-none -z-10 bg-gradient-to-br from-[#5D001E]/20 via-[#9A1750]/15 to-transparent"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -844,12 +844,12 @@ export function StepRole({
                 {/* Top Row: Icon + Badge + Checkmark */}
                 <div className="flex items-start justify-between gap-2 mb-3.5">
                   <div className="flex items-center gap-3">
-                    <div className="h-11 w-11 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-purple-400 shadow-inner group-hover:scale-110 transition-transform duration-300">
-                      <RoleIcon roleNameOrId={role.id || role.name} className="h-6 w-6 text-purple-400" />
+                    <div className="h-11 w-11 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-pink-400 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                      <RoleIcon roleNameOrId={role.id || role.name} className="h-6 w-6 text-pink-400" />
                     </div>
 
                     <div>
-                      <h3 className="text-base sm:text-lg font-extrabold text-white tracking-tight group-hover:text-purple-300 transition-colors">
+                      <h3 className="text-base sm:text-lg font-extrabold text-white tracking-tight group-hover:text-pink-300 transition-colors">
                         {role.name}
                       </h3>
                       <div className="text-[11px] font-semibold text-emerald-400 mt-0.5">
@@ -864,7 +864,7 @@ export function StepRole({
                       <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="h-6 w-6 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-purple-600/40"
+                        className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#5D001E] to-[#EE4C7C] text-white flex items-center justify-center shadow-lg shadow-[#9A1750]/40"
                       >
                         <Check className="h-3.5 w-3.5 stroke-[3]" />
                       </motion.div>
@@ -1104,11 +1104,11 @@ export function StepRole({
             type="button"
             onClick={onNext}
             disabled={!targetRole}
-            className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold text-xs shadow-xl shadow-purple-600/30 disabled:opacity-50 transition-all flex items-center gap-2"
+            className="group px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#5D001E] via-[#9A1750] to-[#EE4C7C] hover:from-[#9A1750] hover:to-[#EE4C7C] text-white font-bold text-xs shadow-xl shadow-[#9A1750]/30 disabled:opacity-50 transition-all flex items-center gap-2"
           >
             <div className="text-left">
               <div>Continue</div>
-              <div className="text-[10px] text-purple-200 font-medium">
+              <div className="text-[10px] text-pink-200 font-medium">
                 Next: Dream Companies →
               </div>
             </div>

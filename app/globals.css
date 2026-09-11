@@ -12,80 +12,125 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 4%;
     --popover-foreground: 210 40% 98%;
-    --primary: 243 75% 59%;
+    --primary: 341 100% 18%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 217 33% 17%;
+    --secondary: 334 74% 35%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
+    --accent: 343 83% 62%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 243 75% 59%;
+    --ring: 343 83% 62%;
+    --chart-1: 341 100% 18%;
+    --chart-2: 334 74% 35%;
+    --chart-3: 343 83% 62%;
+    --chart-4: 346 45% 79%;
+    --chart-5: 40 5% 88%;
     --radius: 0.75rem;
     color-scheme: dark;
 
-    /* CareerCompass Companion Theme Tokens (Default: Athena Dark) */
-    --cc-primary: #6366f1;
-    --cc-primary-hover: #4f46e5;
-    --cc-primary-soft: rgba(99, 102, 241, 0.14);
-    --cc-secondary: #8b5cf6;
-    --cc-accent: #38bdf8;
+    /* CareerCompass Brand Tokens (Default: Athena Dark / Burgundy Identity) */
+    --cc-primary: #5D001E;
+    --cc-primary-hover: #9A1750;
+    --cc-primary-soft: rgba(154, 23, 80, 0.16);
+    --cc-secondary: #9A1750;
+    --cc-accent: #EE4C7C;
+    --cc-accent-soft: rgba(238, 76, 124, 0.15);
+    --cc-soft: #E3AFBC;
+    --cc-neutral-light: #E3E2DF;
     --cc-background: #030712;
     --cc-background-secondary: #0b0f19;
     --cc-surface: rgba(15, 23, 42, 0.65);
     --cc-surface-elevated: rgba(30, 41, 59, 0.8);
     --cc-surface-muted: rgba(15, 23, 42, 0.45);
-    --cc-border: rgba(99, 102, 241, 0.18);
-    --cc-border-subtle: rgba(99, 102, 241, 0.10);
-    --cc-border-highlight: rgba(99, 102, 241, 0.45);
+    --cc-border: rgba(154, 23, 80, 0.22);
+    --cc-border-subtle: rgba(154, 23, 80, 0.12);
+    --cc-border-highlight: rgba(238, 76, 124, 0.45);
     --cc-text: #f8fafc;
     --cc-text-secondary: #cbd5e1;
     --cc-text-muted: #94a3b8;
-    --cc-text-accent: #a5b4fc;
-    --cc-glow: rgba(99, 102, 241, 0.35);
-    --cc-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #38bdf8 100%);
-    --cc-selection: rgba(99, 102, 241, 0.3);
-    --cc-progress: linear-gradient(90deg, #6366f1, #8b5cf6, #38bdf8);
+    --cc-text-accent: #EE4C7C;
+    --cc-glow: rgba(238, 76, 124, 0.35);
+    --cc-gradient: linear-gradient(135deg, #5D001E 0%, #9A1750 50%, #EE4C7C 100%);
+    --cc-selection: rgba(238, 76, 124, 0.25);
+    --cc-progress: linear-gradient(90deg, #5D001E, #9A1750, #EE4C7C);
+    --cc-success: #10b981;
+    --cc-warning: #eab308;
+    --cc-danger: #ef4444;
   }
 
   .light,
   [data-theme="light"] {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 40 5% 97%;
+    --foreground: 345 50% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 345 50% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 243 75% 59%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222 47% 11.2%;
+    --popover-foreground: 345 50% 12%;
+    --primary: 341 100% 18%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 5% 88%;
+    --secondary-foreground: 345 50% 12%;
+    --muted: 40 5% 88%;
+    --muted-foreground: 345 10% 40%;
+    --accent: 334 74% 35%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 243 75% 59%;
+    --border: 40 4% 84%;
+    --input: 40 4% 84%;
+    --ring: 341 100% 18%;
+    --chart-1: 341 100% 18%;
+    --chart-2: 334 74% 35%;
+    --chart-3: 343 83% 62%;
+    --chart-4: 346 45% 79%;
+    --chart-5: 40 5% 88%;
     color-scheme: light;
+
+    /* CareerCompass Light Theme Tokens */
+    --cc-primary: #5D001E;
+    --cc-primary-hover: #9A1750;
+    --cc-primary-soft: rgba(93, 0, 30, 0.08);
+    --cc-secondary: #9A1750;
+    --cc-accent: #EE4C7C;
+    --cc-accent-soft: rgba(238, 76, 124, 0.12);
+    --cc-soft: #E3AFBC;
+    --cc-neutral-light: #E3E2DF;
+    --cc-background: #fcfbf9;
+    --cc-background-secondary: #E3E2DF;
+    --cc-surface: #ffffff;
+    --cc-surface-elevated: #ffffff;
+    --cc-surface-muted: #f5f4f0;
+    --cc-border: #dedcd7;
+    --cc-border-subtle: #eae9e5;
+    --cc-border-highlight: rgba(154, 23, 80, 0.35);
+    --cc-text: #1a0a10;
+    --cc-text-secondary: #4a3840;
+    --cc-text-muted: #78646c;
+    --cc-text-accent: #9A1750;
+    --cc-glow: rgba(238, 76, 124, 0.15);
+    --cc-gradient: linear-gradient(135deg, #5D001E 0%, #9A1750 50%, #EE4C7C 100%);
+    --cc-selection: rgba(238, 76, 124, 0.15);
+    --cc-progress: linear-gradient(90deg, #5D001E, #9A1750, #EE4C7C);
+    --cc-success: #059669;
+    --cc-warning: #d97706;
+    --cc-danger: #dc2626;
   }
 
   [data-companion="athena"] {
-    --cc-primary: #6366f1;
-    --cc-primary-hover: #4f46e5;
-    --cc-primary-soft: rgba(99, 102, 241, 0.14);
-    --cc-secondary: #8b5cf6;
-    --cc-accent: #38bdf8;
-    --cc-border-highlight: rgba(99, 102, 241, 0.45);
-    --cc-text-accent: #a5b4fc;
-    --cc-glow: rgba(99, 102, 241, 0.35);
-    --cc-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #38bdf8 100%);
+    --cc-primary: #5D001E;
+    --cc-primary-hover: #9A1750;
+    --cc-primary-soft: rgba(154, 23, 80, 0.16);
+    --cc-secondary: #9A1750;
+    --cc-accent: #EE4C7C;
+    --cc-border-highlight: rgba(238, 76, 124, 0.45);
+    --cc-text-accent: #EE4C7C;
+    --cc-glow: rgba(238, 76, 124, 0.35);
+    --cc-gradient: linear-gradient(135deg, #5D001E 0%, #9A1750 50%, #EE4C7C 100%);
   }
 
   [data-companion="nova"] {
@@ -152,9 +197,14 @@
     @apply border-border;
   }
   body {
+    font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--cc-bg, #030712);
     color: var(--cc-text, #f8fafc);
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.022em;
   }
 }
 
@@ -222,5 +272,34 @@
   }
   .cc-border-subtle {
     border-color: var(--cc-border-subtle);
+  }
+
+  /* CareerCompass Brand Utilities */
+  .btn-brand {
+    background: linear-gradient(135deg, #5D001E 0%, #9A1750 50%, #EE4C7C 100%);
+    box-shadow: 0 4px 14px rgba(154, 23, 80, 0.35);
+    color: #ffffff;
+    transition: all 0.25s ease;
+  }
+  .btn-brand:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 22px rgba(238, 76, 124, 0.45);
+  }
+  .badge-brand {
+    background: rgba(154, 23, 80, 0.15);
+    color: #EE4C7C;
+    border: 1px solid rgba(238, 76, 124, 0.35);
+  }
+  .text-brand-primary {
+    color: #5D001E;
+  }
+  .text-brand-secondary {
+    color: #9A1750;
+  }
+  .text-brand-accent {
+    color: #EE4C7C;
+  }
+  .border-brand-subtle {
+    border-color: rgba(154, 23, 80, 0.2);
   }
 }

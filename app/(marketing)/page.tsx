@@ -10,8 +10,8 @@ import { LandingFooter } from "@/components/landing/footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 selection:bg-purple-500 selection:text-white relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-tr from-purple-600/20 via-indigo-600/20 to-blue-500/10 rounded-full blur-[180px] pointer-events-none" />
+    <main className="min-h-screen bg-slate-950 text-slate-100 selection:bg-[#EE4C7C] selection:text-white relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-tr from-[#5D001E]/25 via-[#9A1750]/20 to-[#EE4C7C]/10 rounded-full blur-[180px] pointer-events-none" />
 
       <Navbar />
       <HeroSection />
