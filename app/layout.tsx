@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { CompanionThemeProvider } from "@/lib/companion-theme-context";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -9,8 +10,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "CareerCompass — AI Career Operating System",
+  description: "AI-Powered Placement Readiness Platform for ambitious engineers.",
 };
 
 const geistSans = Geist({
@@ -29,11 +30,13 @@ export default function RootLayout({
       <body className={`${geistSans.className} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          forcedTheme="dark"
           disableTransitionOnChange
         >
-          {children}
+          <CompanionThemeProvider>
+            {children}
+          </CompanionThemeProvider>
         </ThemeProvider>
       </body>
     </html>

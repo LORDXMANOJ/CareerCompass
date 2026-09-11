@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, CheckCircle, ChevronRight, ShieldCheck, TrendingUp } from "lucide-react";
+import { Award, ChevronRight, ShieldCheck, TrendingUp } from "lucide-react";
 
 const companyBenchmarks = [
   { company: "Stripe", role: "Backend Engineer", readyScore: 82, currentScore: 78, status: "Close (95% Ready)" },

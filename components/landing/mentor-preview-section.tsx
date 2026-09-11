@@ -2,31 +2,32 @@
 
 import { motion } from "framer-motion";
 import { Bot, Sparkles, MessageSquare, Flame } from "lucide-react";
+import { CompanionAvatar } from "@/components/onboarding/companion-avatars";
 
 const mentors = [
   {
-    name: "Dev Sen",
-    role: "Senior Developer",
-    emoji: "☕",
-    catchphrase: "Prod doesn't care about excuses. Let's fix the logic.",
-    signatureAction: "Sips Coffee from Heavy Ceramic Mug",
-    color: "from-amber-500/20 to-orange-500/20 border-amber-500/40 text-amber-400",
+    id: "byte",
+    name: "Byte",
+    role: "Developer / Systems Architect",
+    catchphrase: "Production systems don't care about excuses. Let's optimize asymptotic runtime.",
+    signatureAction: "Inspects Core Trace & Terminal Logs",
+    color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/40 text-emerald-400",
   },
   {
-    name: "Commander Raven",
-    role: "Strict Lead Architect",
-    emoji: "⚔️",
-    catchphrase: "Good attempt, recruit. Now do it in O(1) space.",
-    signatureAction: "Adjusts Tactical Holo-Watch",
-    color: "from-purple-500/20 to-indigo-500/20 border-purple-500/40 text-purple-400",
+    id: "raven",
+    name: "Raven",
+    role: "Elite Technical Architect",
+    catchphrase: "Good attempt. Now deliver the same result in O(1) auxiliary space.",
+    signatureAction: "Adjusts Tactical Code Matrix",
+    color: "from-purple-500/20 to-rose-500/20 border-purple-500/40 text-purple-400",
   },
   {
-    name: "Aria Nova",
-    role: "Supportive Strategist",
-    emoji: "✨",
-    catchphrase: "You got 80% of the solution right! Let's polish the edge cases.",
-    signatureAction: "Summarizes Key Takeaways",
-    color: "from-blue-500/20 to-cyan-500/20 border-blue-500/40 text-cyan-400",
+    id: "athena",
+    name: "Athena",
+    role: "Strategic Academic Lead",
+    catchphrase: "You have 80% of the solution correct. Let's rigorously formulate the boundary conditions.",
+    signatureAction: "Synthesizes Key Insights",
+    color: "from-indigo-500/20 to-blue-500/20 border-indigo-500/40 text-indigo-400",
   },
 ];
 
@@ -43,7 +44,7 @@ export function MentorPreviewSection() {
             Meet Your Placement Mentors
           </h2>
           <p className="text-slate-400 text-sm sm:text-base">
-            Choose a mentor character with a unique personality, feedback style, and emotional reaction system. Not a generic chatbot.
+            Choose an AI companion with a unique personality, feedback style, and adaptive visual atmosphere. Not a generic chatbot.
           </p>
         </div>
 
@@ -59,7 +60,9 @@ export function MentorPreviewSection() {
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-4xl">{mentor.emoji}</span>
+                  <div className="p-1 rounded-2xl bg-slate-950/80 border border-slate-800 shadow-md">
+                    <CompanionAvatar id={mentor.id} size={56} emotion="idle" />
+                  </div>
                   <span className="text-xs uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-slate-900/80 text-slate-300 border border-slate-700/50">
                     {mentor.role}
                   </span>

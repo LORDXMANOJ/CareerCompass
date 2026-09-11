@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { InfoIcon, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Suspense } from "react";
 
 async function UserDetails() {

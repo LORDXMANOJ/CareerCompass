@@ -1,10 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
+import { getPostAuthDestination } from "@/lib/auth-helpers";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/onboarding";
+  const nextParam = searchParams.get("next");
 
   if (code) {
     const supabase = await createClient();
@@ -13,32 +14,28 @@ export async function GET(request: NextRequest) {
     if (!error && data.user) {
       const user = data.user;
       
-      // Auto-create/sync profile table entry upon successful authentication
-      await supabase.from("profiles").upsert(
-        {
-          id: user.id,
-          name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
-          email: user.email || "",
-          avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
-          mentor: "dev_sen",
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: "id" }
-      );
+      // Shared post-auth destination determination
+      const computedDestination = await getPostAuthDestination(supabase, user);
+      
+      // Allow explicitly passed next URL if valid and relative, otherwise use computed destination
+      const targetDestination = (nextParam && nextParam.startsWith("/")) ? nextParam : computedDestination;
 
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";
 
       if (isLocalEnv) {
-        return NextResponse.redirect(`${origin}${next}`);
+        return NextResponse.redirect(`${origin}${targetDestination}`);
       } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`);
+        return NextResponse.redirect(`https://${forwardedHost}${targetDestination}`);
       } else {
-        return NextResponse.redirect(`${origin}${next}`);
+        return NextResponse.redirect(`${origin}${targetDestination}`);
       }
+    } else if (error) {
+      console.error("[AuthCallback] OAuth exchange error:", error.message);
+      return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(error.message)}`);
     }
   }
 
-  // Return the user to an error page with instructions if exchange fails
-  return NextResponse.redirect(`${origin}/login?error=Authentication%20failed`);
+  // Return the user to login page with clear error message if code is missing or exchange failed
+  return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent("Authentication code invalid or expired. Please sign in again.")}`);
 }

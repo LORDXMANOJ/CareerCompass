@@ -119,3 +119,6 @@ export function LandingNavbar() {
     </header>
   );
 }
+
+export const Navbar = LandingNavbar;
+
